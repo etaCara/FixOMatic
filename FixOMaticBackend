@@ -1,0 +1,125 @@
+%pip install pymongo
+%pip install dotenv
+%pip install bson
+
+import os
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+from dotenv import load_dotenv
+from bson.objectid import ObjectId
+
+
+
+
+
+
+class Ticket:
+    def __init__(self, id, title, description, status='open'):
+        self.id = id
+        self.title = title
+        self.description = description
+        self.status = status
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'status': self.status
+        }
+    @classmethod
+    def from_dict(cls, data):
+        return cls(data['id'], data['title'], data['description'], data['status'])
+    def __repr__(self):
+        return f"Ticket(id={self.id}, title='{self.title}', status='{self.status}')"
+
+#load_dotenv() #not using this now, might later 
+MONGODB_URI = os.getenv("MONGODB_URI", "mongodb+srv://hwimmer:<pass1>@schoolcluster.fymt3yb.mongodb.net/?retryWrites=true&w=majority&appName=SchoolCluster")
+DATABASE_NAME = os.getenv("DATABASE_NAME", "SchoolCluster")
+COLLECTION_NAME = os.getenv("COLLECTION_NAME", "tickets")
+
+class DatabaseConnection:
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(DatabaseConnection, cls).__new__(cls, *args, **kwargs)
+            cls._instance.client = MongoClient(MONGODB_URI)
+            cls._instance.db = cls._instance.client[DATABASE_NAME]
+            cls._instance.collection = cls._instance.db[COLLECTION_NAME]
+        return cls._instance
+
+    def get_collection(self):
+        if self.collection is not None:
+            return self.collection
+        else:
+            raise Exception("Not connected to MongoDB collection.")
+
+    def close(self):
+        if self.client:
+            self.client.close()
+
+class TicketManager:
+    def __init__(self, db_connection):
+        self.ticket_collection = db_connection.get_collection()
+
+    def create_ticket(self, ticket):
+        try:
+            ticket_data = ticket.to_dict()
+            result = self.ticket_collection.insert_one(ticket_data)
+            return result.inserted_id
+        except Exception as e:
+            print(f"Error creating ticket: {e}")
+            return None
+
+    def get_ticket(self, ticket_id):
+        try:
+            ticket_data = self.ticket_collection.find_one({'id': ticket_id})
+            if ticket_data:
+                return Ticket.from_dict(ticket_data)
+            else:
+                return None
+        except Exception as e:
+            print(f"Error getting ticket: {e}")
+            return None
+
+    def get_ticket_by_object_id(self, object_id):
+        try:
+            obj_id = ObjectId(object_id)
+            ticket_data = self.ticket_collection.find_one({'_id': obj_id})
+            if ticket_data:
+                return Ticket.from_dict(ticket_data)
+            else:
+                return None
+        except Exception as e:
+            print(f"Error getting ticket by ObjectId: {e}")
+            return None
+
+    def update_ticket(self, ticket_id, updates):
+        try:
+            result = self.ticket_collection.update_one({'id': ticket_id}, {'$set': updates})
+            return result.modified_count
+        except Exception as e:
+            print(f"Error updating ticket: {e}")
+            return 0
+
+    def delete_ticket(self, ticket_id):
+        try:
+            result = self.ticket_collection.delete_one({'id': ticket_id})
+            return result.deleted_count
+        except Exception as e:
+            print(f"Error deleting ticket: {e}")
+            return 0
+
+    def list_tickets(self, query=None):
+        try:
+            if query is None:
+                query = {}
+            tickets = []
+            for ticket_data in self.ticket_collection.find(query):
+                tickets.append(Ticket.from_dict(ticket_data))
+            return tickets
+        except Exception as e:
+            print(f"Error listing tickets: {e}")
+            return []
+
