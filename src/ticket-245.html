@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ticket #245 - IT Ticketing System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <h1 class="logo">🛠️ Fix-O-Matic</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="in-process.html">Back to Tickets</a>
+    </nav>
+  </header>
+  <main class="container">
+    <section class="card">
+      <h2>Ticket #245 - Email Login Issue</h2>
+      <p><strong>Assigned To:</strong> Hannah</p>
+      <p><strong>Status:</strong> In Progress</p>
+      <p><strong>Severity:</strong> High</p>
+      <p><strong>Description:</strong> User unable to log in to company email system using Outlook. Login attempts result in repeated credential prompts.</p>
+
+      <style>
+  .ticket-status-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 1rem 0;
+  }
+  .status-bubble {
+    background: #f3f4f6;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  .status-bubble.completed {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+  .status-bubble.active {
+    background-color: #bfdbfe;
+    color: #1e3a8a;
+  }
+  .timestamp {
+    display: block;
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 4px;
+  }
+</style>
+<div class="ticket-status-bar">
+        <span class="status-bubble completed">Opened<br><small class="timestamp">🕒 2024-07-01 08:00</small></span>
+        <span class="status-bubble completed">Assigned<br><small class="timestamp">🕒 2024-07-01 08:00</small></span>
+        <span class="status-bubble active">In Progress<br><small class="timestamp">🕒 2024-07-01 08:00</small></span>
+        <span class="status-bubble">Awaiting User Response<br><small class="timestamp">🕒 2024-07-01 08:00</small></span>
+      </div>
+
+      <h3>Edit Ticket</h3>
+      <form>
+        <label>Status:</label><br />
+        <select required>
+          <option selected>In Progress</option>
+          <option>Assigned</option>
+          <option>Resolved</option>
+          <option>Closed</option>
+        </select><br />
+
+        <label>Reassign To:</label><br />
+        <input type="text" placeholder="Enter team member name" /><br />
+
+        <label>Update Description:</label><br />
+        <textarea rows="4">User unable to log in to company email system using Outlook. Login attempts result in repeated credential prompts.</textarea><br />
+
+        <button type="submit">Save Changes</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

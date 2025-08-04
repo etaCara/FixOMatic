@@ -1,0 +1,55 @@
+<!-- ticket-246.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ticket #246 - IT Ticketing System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <h1 class="logo">🛠️ Fix-O-Matic</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="in-process.html">Back to Tickets</a>
+    </nav>
+  </header>
+  <main class="container">
+    <section class="card">
+      <h2>Ticket #246 - Printer Jam</h2>
+      <p><strong>Assigned To:</strong> Jamie</p>
+      <p><strong>Status:</strong> Assigned</p>
+      <p><strong>Severity:</strong> Low</p>
+      <p><strong>Description:</strong> Printer in the second floor office has a persistent paper jam error that can't be cleared by staff.</p>
+
+      <div class="ticket-status-bar">
+        <span class="status-bubble completed">Opened</span>
+        <span class="status-bubble active">Assigned</span>
+        <span class="status-bubble">In Progress</span>
+        <span class="status-bubble">Resolved</span>
+        <span class="status-bubble">Closed</span>
+      </div>
+
+      <h3>Edit Ticket</h3>
+      <form>
+        <label>Status:</label><br />
+        <select required>
+          <option>In Progress</option>
+          <option selected>Assigned</option>
+          <option>Resolved</option>
+          <option>Closed</option>
+        </select><br />
+
+        <label>Reassign To:</label><br />
+        <input type="text" placeholder="Enter team member name" /><br />
+
+        <label>Update Description:</label><br />
+        <textarea rows="4">Printer in the second floor office has a persistent paper jam error that can't be cleared by staff.</textarea><br />
+
+        <button type="submit">Save Changes</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

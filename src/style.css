@@ -1,0 +1,160 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background-color: #f2f4f7;
+  color: #333;
+}
+
+.navbar {
+  background-color: #1f2937;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 1.5rem;
+}
+
+.navbar nav a {
+  color: white;
+  margin-left: 1rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navbar nav a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  display: grid;
+  gap: 1.5rem;
+  padding: 0 1rem;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.welcome-card h2 {
+  margin-top: 0;
+}
+
+.alert-card {
+  background: #fff7ed;
+  border-left: 6px solid #f97316;
+}
+
+.profile-card {
+  background: #eff6ff;
+  border-left: 6px solid #3b82f6;
+}
+
+.ticket-feed ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ticket-feed li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ticket-id {
+  font-weight: bold;
+  color: #6366f1;
+  margin-right: 0.5rem;
+}
+
+.status {
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: black;
+}
+
+.status.high {
+  background-color: #ef4444;
+}
+
+.status.medium {
+  background-color: #f59e0b;
+}
+
+.status.low {
+  background-color: #10b981;
+}
+
+.view-all {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #3b82f6;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.view-all:hover {
+  text-decoration: underline;
+}
+
+.ticket-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.ticket-header, .ticket-row {
+  display: grid;
+  grid-template-columns: 1fr 3fr 2fr 2fr 1fr;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: #f9fafb;
+  border-radius: 8px;
+}
+
+.ticket-header {
+  background-color: #e5e7eb;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.ticket-row {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+.ticket-col {
+  padding: 0 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  color: #6b7280;
+  display: block;
+  margin-top: 4px;
+}
+.ticket-col.id {
+  color: #2563eb;
+  font-weight: bold;
+}

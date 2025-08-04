@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - IT Ticketing System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <h1 class="logo">🛠️ Fix-O-Matic</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="create-ticket.html">Create</a>
+      <a href="history.html">History</a>
+      <a href="faq.html">FAQ</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card welcome-card">
+      <h2>👋 Welcome, Larry! (Team: F2)</h2>
+      <p>This is your personalized IT dashboard. Here you can monitor tickets, alerts, and updates from the IT department.</p>
+    </section>
+
+    <section class="card alert-card">
+      <h3>🚨 System Alerts</h3>
+      <p><strong>⚠️ Server Maintenance:</strong> Scheduled for Friday 8PM–10PM. Expect brief disconnections.</p>
+    </section>
+
+    <section class="card ticket-feed">
+        <h3>📌 In-Process Tickets</h3>
+
+        <div class="ticket-table">
+            <div class="ticket-header">
+            <span class="ticket-col id">Ticket ID</span>
+            <span class="ticket-col issue">Issue</span>
+            <span class="ticket-col assigned">Assigned To</span>
+            <span class="ticket-col status">Status</span>
+            <span class="ticket-col severity">Severity</span>
+            </div>
+
+            <div class="ticket-row">
+            <a href="ticket-245.html" class="ticket-col id">#245</a>
+            <span class="ticket-col issue">Email Login Issue</span>
+            <span class="ticket-col assigned">Hannah</span>
+            <span class="ticket-col status"><span class="status high">In Progress</span></span>
+            <span class="ticket-col severity">High</span>
+            </div>
+
+            <div class="ticket-row">
+            <a href="ticket-246.html" class="ticket-col id">#246</a>
+            <span class="ticket-col issue">Printer Jam</span>
+            <span class="ticket-col assigned">James</span>
+            <span class="ticket-col status"><span class="status low">Assigned</span></span>
+            <span class="ticket-col severity">Low</span>
+            </div>
+
+            <div class="ticket-row">
+            <a href="ticket-247.html" class="ticket-col id">#247</a>
+            <span class="ticket-col issue">Network Timeout</span>
+            <span class="ticket-col assigned">Larry</span>
+            <span class="ticket-col status"><span class="status medium">Open</span></span>
+            <span class="ticket-col severity">Medium</span>
+            </div>
+        </div>
+        <a href="in-process.html" class="view-all">View All Tickets →</a>
+    </section>
+
+  </main>
+</body>
+</html>
