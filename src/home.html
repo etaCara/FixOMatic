@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home - IT Ticketing System</title>
   <link rel="stylesheet" href="style.css" />
+  <script>
+    // 🔒 Frontend login check
+    const username = localStorage.getItem("username");
+    if (!username) {
+      window.location.href = "index.html";
+    }
+  </script>
 </head>
 <body>
   <header class="navbar">
@@ -20,7 +27,7 @@
 
   <main class="container">
     <section class="card welcome-card">
-      <h2>👋 Welcome, Larry! (Team: F2)</h2>
+      <h2>👋 Welcome, <span id="usernameDisplay">User</span>!</h2>
       <p>This is your personalized IT dashboard. Here you can monitor tickets, alerts, and updates from the IT department.</p>
     </section>
 
@@ -30,44 +37,87 @@
     </section>
 
     <section class="card ticket-feed">
-        <h3>📌 In-Process Tickets</h3>
+      <h3>📌 In-Process Tickets</h3>
 
-        <div class="ticket-table">
-            <div class="ticket-header">
-            <span class="ticket-col id">Ticket ID</span>
-            <span class="ticket-col issue">Issue</span>
-            <span class="ticket-col assigned">Assigned To</span>
-            <span class="ticket-col status">Status</span>
-            <span class="ticket-col severity">Severity</span>
-            </div>
-
-            <div class="ticket-row">
-            <a href="ticket-245.html" class="ticket-col id">#245</a>
-            <span class="ticket-col issue">Email Login Issue</span>
-            <span class="ticket-col assigned">Hannah</span>
-            <span class="ticket-col status"><span class="status high">In Progress</span></span>
-            <span class="ticket-col severity">High</span>
-            </div>
-
-            <div class="ticket-row">
-            <a href="ticket-246.html" class="ticket-col id">#246</a>
-            <span class="ticket-col issue">Printer Jam</span>
-            <span class="ticket-col assigned">James</span>
-            <span class="ticket-col status"><span class="status low">Assigned</span></span>
-            <span class="ticket-col severity">Low</span>
-            </div>
-
-            <div class="ticket-row">
-            <a href="ticket-247.html" class="ticket-col id">#247</a>
-            <span class="ticket-col issue">Network Timeout</span>
-            <span class="ticket-col assigned">Larry</span>
-            <span class="ticket-col status"><span class="status medium">Open</span></span>
-            <span class="ticket-col severity">Medium</span>
-            </div>
+      <div class="ticket-table">
+        <div class="ticket-header">
+          <span class="ticket-col id">Ticket ID</span>
+          <span class="ticket-col issue">Issue</span>
+          <span class="ticket-col assigned">Assigned To</span>
+          <span class="ticket-col status">Status</span>
+          <span class="ticket-col severity">Severity</span>
         </div>
-        <a href="in-process.html" class="view-all">View All Tickets →</a>
-    </section>
 
+        <!-- Static demo ticket rows (temporary) -->
+        <div class="ticket-row">
+          <a href="ticket-245.html" class="ticket-col id">#245</a>
+          <span class="ticket-col issue">Email Login Issue</span>
+          <span class="ticket-col assigned">Hannah</span>
+          <span class="ticket-col status"><span class="status high">In Progress</span></span>
+          <span class="ticket-col severity">High</span>
+        </div>
+
+        <div class="ticket-row">
+          <a href="ticket-246.html" class="ticket-col id">#246</a>
+          <span class="ticket-col issue">Printer Jam</span>
+          <span class="ticket-col assigned">James</span>
+          <span class="ticket-col status"><span class="status low">Assigned</span></span>
+          <span class="ticket-col severity">Low</span>
+        </div>
+
+        <div class="ticket-row">
+          <a href="ticket-247.html" class="ticket-col id">#247</a>
+          <span class="ticket-col issue">Network Timeout</span>
+          <span class="ticket-col assigned">Larry</span>
+          <span class="ticket-col status"><span class="status medium">Open</span></span>
+          <span class="ticket-col severity">Medium</span>
+        </div>
+
+        <!-- when backend is ready -->
+        <!--
+        <div id="ticketRows"></div>
+        -->
+      </div>
+
+      <a href="in-process.html" class="view-all">View All Tickets →</a>
+    </section>
   </main>
+
+  <script>
+    // Show logged-in username
+    document.getElementById("usernameDisplay").textContent = localStorage.getItem("username");
+
+    /*
+    // When backend API is ready
+    async function loadTickets() {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/tickets/in-process');
+        const tickets = await response.json();
+
+        const ticketRowsContainer = document.getElementById('ticketRows');
+        ticketRowsContainer.innerHTML = '';
+
+        tickets.forEach(ticket => {
+          const row = document.createElement('div');
+          row.classList.add('ticket-row');
+
+          row.innerHTML = `
+            <a href="ticket-${ticket.id}.html" class="ticket-col id">#${ticket.id}</a>
+            <span class="ticket-col issue">${ticket.issue_type}</span>
+            <span class="ticket-col assigned">${ticket.assigned_to || 'Unassigned'}</span>
+            <span class="ticket-col status"><span class="status ${ticket.severity.toLowerCase()}">${ticket.status}</span></span>
+            <span class="ticket-col severity">${ticket.severity}</span>
+          `;
+          ticketRowsContainer.appendChild(row);
+        });
+
+      } catch (error) {
+        console.error("Error loading tickets:", error);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadTickets);
+    */
+  </script>
 </body>
 </html>

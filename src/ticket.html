@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ticket Details</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    const username = localStorage.getItem("username");
+    if (!username) {
+      window.location.href = "index.html";
+    }
+  </script>
+</head>
+<body>
+  <header class="navbar">
+    <h1 class="logo">🛠️ Fix-O-Matic</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="create-ticket.html">Create</a>
+      <a href="history.html">History</a>
+      <a href="faq.html">FAQ</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>🎟️ Ticket Details</h2>
+      <div class="ticket-details">
+        <p><strong>ID:</strong> <span id="ticketId">#001</span></p>
+        <p><strong>Issue:</strong> <span id="ticketIssue">Cannot connect to VPN</span></p>
+        <p><strong>Description:</strong> <span id="ticketDesc">User unable to access secure remote network.</span></p>
+        <p><strong>Assigned To:</strong> <span id="ticketAssigned">Unassigned</span></p>
+        <p><strong>Status:</strong> <span id="ticketStatus">Open</span></p>
+        <p><strong>Severity:</strong> <span id="ticketSeverity">High</span></p>
+        <p><strong>Created On:</strong> <span id="ticketDate">2025-08-16</span></p>
+        <p><strong>Created By:</strong> <span id="ticketUser">larry</span></p>
+      </div>
+      <a href="in-process.html" class="back-link">← Back to Tickets</a>
+    </section>
+  </main>
+
+  <script>
+    /*
+      // When backend is live
+      async function loadTicketDetails() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const ticketId = urlParams.get("id");
+
+        if (!ticketId) {
+          alert("No ticket ID provided.");
+          return;
+        }
+
+        try {
+          const response = await fetch(`http://127.0.0.1:8000/tickets/${ticketId}`);
+          const ticket = await response.json();
+
+          document.getElementById("ticketId").textContent = `#${ticket.id}`;
+          document.getElementById("ticketIssue").textContent = ticket.issue_type;
+          document.getElementById("ticketDesc").textContent = ticket.description;
+          document.getElementById("ticketAssigned").textContent = ticket.assigned_to || "Unassigned";
+          document.getElementById("ticketStatus").textContent = ticket.status;
+          document.getElementById("ticketSeverity").textContent = ticket.severity;
+          document.getElementById("ticketDate").textContent = new Date(ticket.created_at).toLocaleDateString();
+          document.getElementById("ticketUser").textContent = ticket.created_by || "Unknown";
+
+        } catch (err) {
+          console.error("Error loading ticket:", err);
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", loadTicketDetails);
+    */
+  </script>
+</body>
+</html>
