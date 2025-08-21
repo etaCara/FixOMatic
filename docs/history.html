@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ticket History - Fix-O-Matic</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    const username = localStorage.getItem("username");
+    if (!username) {
+      window.location.href = "index.html";
+    }
+  </script>
+</head>
+<body>
+  <header class="navbar">
+    <h1 class="logo">🛠️ Fix-O-Matic</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="create-ticket.html">Create</a>
+      <a href="history.html" class="active">History</a>
+      <a href="faq.html">FAQ</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>📜 My Ticket History</h2>
+      <table class="ticket-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Issue</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="ticketHistoryBody">
+          <!-- Tickets inserted here -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    // Demo Ticket Data
+    const demoTickets = [
+      { id: 1, issue: "Wi-Fi not working", status: "Closed", date: "2025-08-10" },
+      { id: 2, issue: "PC not booting", status: "Resolved", date: "2025-08-14" },
+      { id: 3, issue: "Monitor flickering", status: "Pending", date: "2025-08-16" }
+    ];
+
+    const ticketBody = document.getElementById("ticketHistoryBody");
+
+    function renderDemoTickets() {
+      demoTickets.forEach(ticket => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td><a href="ticket.html?id=${ticket.id}">#${ticket.id}</a></td>
+          <td>${ticket.issue}</td>
+          <td>${ticket.status}</td>
+          <td>${ticket.date}</td>
+        `;
+
+        ticketBody.appendChild(row);
+      });
+    }
+
+    renderDemoTickets();
+
+    /*
+    // When backend is ready
+    async function loadTicketHistory() {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/tickets?user=" + localStorage.getItem("username"));
+        const tickets = await response.json();
+
+        tickets.forEach(ticket => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td><a href="ticket.html?id=${ticket.id}">#${ticket.id}</a></td>
+            <td>${ticket.issue_type}</td>
+            <td>${ticket.status}</td>
+            <td>${new Date(ticket.created_at).toLocaleDateString()}</td>
+          `;
+          ticketBody.appendChild(row);
+        });
+
+      } catch (err) {
+        console.error("Failed to load ticket history", err);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", loadTicketHistory);
+    */
+  </script>
+</body>
+</html>

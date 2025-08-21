@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FAQ - Fix-O-Matic</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    const username = localStorage.getItem("username");
+    if (!username) {
+      window.location.href = "index.html";
+    }
+  </script>
+</head>
+<body>
+  <header class="navbar">
+    <h1 class="logo">🛠️ Fix-O-Matic</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="create-ticket.html">Create</a>
+      <a href="history.html">History</a>
+      <a href="faq.html" class="active">FAQ</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>❓ Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>📌 How do I submit a new ticket?</h3>
+        <p>Click on the “Create” tab in the navigation bar. Fill in the issue details and submit the form.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>🔍 Where can I see the status of my tickets?</h3>
+        <p>You can view your open and closed tickets in the "History" tab. Each ticket will show its current status.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>👤 Who can see my tickets?</h3>
+        <p>Only you and the IT team have access to your ticket details. Admins may have oversight as well.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>🔐 I forgot my password. What should I do?</h3>
+        <p>Currently, password reset is not available in demo mode. Please contact an admin for help.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>📆 How long will it take to resolve my issue?</h3>
+        <p>Resolution time depends on the severity of the issue. Critical tickets are prioritized by the IT team.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /*
+    // Fetching FAQs from the backend
+    async function loadFAQs() {
+      try {
+        const res = await fetch("http://127.0.0.1:8000/faqs");
+        const data = await res.json();
+        const container = document.querySelector(".card");
+        container.innerHTML = "<h2>❓ Frequently Asked Questions</h2>";
+        data.forEach(faq => {
+          const item = document.createElement("div");
+          item.className = "faq-item";
+          item.innerHTML = `<h3>${faq.question}</h3><p>${faq.answer}</p>`;
+          container.appendChild(item);
+        });
+      } catch (err) {
+        console.error("Failed to load FAQs", err);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", loadFAQs);
+    */
+  </script>
+</body>
+</html>

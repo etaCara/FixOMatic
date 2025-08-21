@@ -1,0 +1,91 @@
+<!-- create-ticket.html -->
+<script>
+  // Check if user is logged in
+  const username = localStorage.getItem("username");
+
+  if (!username) {
+    // Not logged in, redirect to login page
+    window.location.href = "index.html";
+  }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Ticket - IT Ticketing System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <h1 class="logo">💼 Fix-O-Matic</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="create-ticket.html">Create</a>
+      <a href="history.html">History</a>
+      <a href="faq.html">FAQ</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+  </header>
+  <main class="container">
+    <section class="card">
+      <h2>🎫 Create a New Ticket</h2>
+      <form id="ticketForm">
+        <label>Issue Type:</label><br />
+        <select id="issueType" required>
+          <option value="" disabled selected>Select an issue type</option>
+          <option>Network</option>
+          <option>Hardware</option>
+          <option>Software</option>
+        </select><br />
+
+        <div id="dynamicFields"></div>
+
+        <label>Description:</label><br />
+        <textarea rows="5" name="description" required></textarea><br />
+
+        <label>Upload File:</label>
+        <input type="file" /><br />
+
+        <button type="submit">Submit Ticket</button>
+      </form>
+
+      <script>
+        const issueSelect = document.getElementById('issueType');
+        const dynamicFields = document.getElementById('dynamicFields');
+
+        issueSelect.addEventListener('change', () => {
+          dynamicFields.innerHTML = `
+            <label>Department:</label><br />
+            <select name="department" required>
+              <option value="" disabled selected>Select a department</option>
+              <option>IT</option>
+              <option>HR</option>
+              <option>Finance</option>
+              <option>Operations</option>
+            </select><br />
+
+            <label>Priority:</label><br />
+            <select name="priority" required>
+              <option value="" disabled selected>Select priority</option>
+              <option>Routine</option>
+              <option>Immediate</option>
+              <option>Urgent</option>
+            </select><br />
+
+            <label>Location (if applicable):</label><br />
+            <input type="text" name="location" placeholder="e.g., Floor 2 - Room 204" required /><br />
+
+            <label>Best Time to Contact:</label><br />
+            <input type="text" name="contact_time" placeholder="e.g., Weekdays 9AM-12PM" /><br />
+
+            <label>Impact Description:</label><br />
+            <textarea rows="3" name="impact" placeholder="Explain how this issue affects your work"></textarea><br />
+          `;
+        });
+      </script>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
