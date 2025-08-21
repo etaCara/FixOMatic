@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from db import init_db_pool, close_mysql_pool
+from db import init_db_pool, close_db_pool
 from routes import tickets, auth
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db_pool()
     yield
-    await close_mysql_pool()
+    await close_db_pool()
 
 app = FastAPI(lifespan=lifespan)
 
