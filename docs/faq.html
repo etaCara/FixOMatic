@@ -25,44 +25,27 @@
   </header>
 
   <main class="container">
-    <section class="card">
+    <section class="card" id="faqContainer">
       <h2>❓ Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>📌 How do I submit a new ticket?</h3>
-        <p>Click on the “Create” tab in the navigation bar. Fill in the issue details and submit the form.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>🔍 Where can I see the status of my tickets?</h3>
-        <p>You can view your open and closed tickets in the "History" tab. Each ticket will show its current status.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>👤 Who can see my tickets?</h3>
-        <p>Only you and the IT team have access to your ticket details. Admins may have oversight as well.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>🔐 I forgot my password. What should I do?</h3>
-        <p>Currently, password reset is not available in demo mode. Please contact an admin for help.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>📆 How long will it take to resolve my issue?</h3>
-        <p>Resolution time depends on the severity of the issue. Critical tickets are prioritized by the IT team.</p>
-      </div>
+      <p>Loading FAQs...</p>
     </section>
   </main>
 
   <script>
-    /*
-    // Fetching FAQs from the backend
     async function loadFAQs() {
       try {
-        const res = await fetch("http://127.0.0.1:8000/faqs");
+        const res = await fetch("https://fixomatic.onrender.com/faqs");
+        if (!res.ok) throw new Error("Server error");
         const data = await res.json();
-        const container = document.querySelector(".card");
+
+        const container = document.getElementById("faqContainer");
         container.innerHTML = "<h2>❓ Frequently Asked Questions</h2>";
+
+        if (!data.length) {
+          container.innerHTML += "<p>No FAQs available at the moment.</p>";
+          return;
+        }
+
         data.forEach(faq => {
           const item = document.createElement("div");
           item.className = "faq-item";
@@ -71,11 +54,12 @@
         });
       } catch (err) {
         console.error("Failed to load FAQs", err);
+        const container = document.getElementById("faqContainer");
+        container.innerHTML += `<p style="color:red;">Unable to load FAQs. Please try again later.</p>`;
       }
     }
 
     window.addEventListener("DOMContentLoaded", loadFAQs);
-    */
   </script>
 </body>
 </html>

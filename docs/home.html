@@ -6,7 +6,6 @@
   <title>Home - IT Ticketing System</title>
   <link rel="stylesheet" href="style.css" />
   <script>
-    // 🔒 Frontend login check
     const username = localStorage.getItem("username");
     if (!username) {
       window.location.href = "index.html";
@@ -17,7 +16,7 @@
   <header class="navbar">
     <h1 class="logo">🛠️ Fix-O-Matic</h1>
     <nav>
-      <a href="home.html">Home</a>
+      <a href="home.html" class="active">Home</a>
       <a href="create-ticket.html">Create</a>
       <a href="history.html">History</a>
       <a href="faq.html">FAQ</a>
@@ -47,36 +46,9 @@
           <span class="ticket-col status">Status</span>
           <span class="ticket-col severity">Severity</span>
         </div>
-
-        <!-- Static demo ticket rows (temporary) -->
-        <div class="ticket-row">
-          <a href="ticket-245.html" class="ticket-col id">#245</a>
-          <span class="ticket-col issue">Email Login Issue</span>
-          <span class="ticket-col assigned">Hannah</span>
-          <span class="ticket-col status"><span class="status high">In Progress</span></span>
-          <span class="ticket-col severity">High</span>
+        <div id="ticketRows">
+          <p>Loading tickets...</p>
         </div>
-
-        <div class="ticket-row">
-          <a href="ticket-246.html" class="ticket-col id">#246</a>
-          <span class="ticket-col issue">Printer Jam</span>
-          <span class="ticket-col assigned">James</span>
-          <span class="ticket-col status"><span class="status low">Assigned</span></span>
-          <span class="ticket-col severity">Low</span>
-        </div>
-
-        <div class="ticket-row">
-          <a href="ticket-247.html" class="ticket-col id">#247</a>
-          <span class="ticket-col issue">Network Timeout</span>
-          <span class="ticket-col assigned">Larry</span>
-          <span class="ticket-col status"><span class="status medium">Open</span></span>
-          <span class="ticket-col severity">Medium</span>
-        </div>
-
-        <!-- when backend is ready -->
-        <!--
-        <div id="ticketRows"></div>
-        -->
       </div>
 
       <a href="in-process.html" class="view-all">View All Tickets →</a>
@@ -84,40 +56,45 @@
   </main>
 
   <script>
-    // Show logged-in username
-    document.getElementById("usernameDisplay").textContent = localStorage.getItem("username");
+    document.addEventListener("DOMContentLoaded", () => {
+      const username = localStorage.getItem("username");
+      document.getElementById("usernameDisplay").textContent = username;
 
-    /*
-    // When backend API is ready
-    async function loadTickets() {
-      try {
-        const response = await fetch('http://127.0.0.1:8000/tickets/in-process');
-        const tickets = await response.json();
-
+      async function loadTickets() {
         const ticketRowsContainer = document.getElementById('ticketRows');
-        ticketRowsContainer.innerHTML = '';
 
-        tickets.forEach(ticket => {
-          const row = document.createElement('div');
-          row.classList.add('ticket-row');
+        try {
+          const response = await fetch('https://fixomatic.onrender.com/tickets/in-process');
+          const tickets = await response.json();
 
-          row.innerHTML = `
-            <a href="ticket-${ticket.id}.html" class="ticket-col id">#${ticket.id}</a>
-            <span class="ticket-col issue">${ticket.issue_type}</span>
-            <span class="ticket-col assigned">${ticket.assigned_to || 'Unassigned'}</span>
-            <span class="ticket-col status"><span class="status ${ticket.severity.toLowerCase()}">${ticket.status}</span></span>
-            <span class="ticket-col severity">${ticket.severity}</span>
-          `;
-          ticketRowsContainer.appendChild(row);
-        });
+          if (!Array.isArray(tickets) || tickets.length === 0) {
+            ticketRowsContainer.innerHTML = `<p>No active tickets.</p>`;
+            return;
+          }
 
-      } catch (error) {
-        console.error("Error loading tickets:", error);
+          ticketRowsContainer.innerHTML = '';
+
+          tickets.forEach(ticket => {
+            const row = document.createElement('div');
+            row.classList.add('ticket-row');
+
+            row.innerHTML = `
+              <a href="ticket.html?id=${ticket.id}" class="ticket-col id">#${ticket.id}</a>
+              <span class="ticket-col issue">${ticket.issue_type || '—'}</span>
+              <span class="ticket-col assigned">${ticket.assigned_to || 'Unassigned'}</span>
+              <span class="ticket-col status"><span class="status ${ticket.severity?.toLowerCase() || 'unknown'}">${ticket.status || '—'}</span></span>
+              <span class="ticket-col severity">${ticket.severity || '—'}</span>
+            `;
+            ticketRowsContainer.appendChild(row);
+          });
+        } catch (error) {
+          console.error("Error loading tickets:", error);
+          ticketRowsContainer.innerHTML = `<p style="color: red;">Failed to load tickets. Please try again later.</p>`;
+        }
       }
-    }
 
-    window.addEventListener('DOMContentLoaded', loadTickets);
-    */
+      loadTickets();
+    });
   </script>
 </body>
 </html>
