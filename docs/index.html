@@ -39,17 +39,21 @@
 
   document.getElementById("loginForm").addEventListener("submit", async function (e) {
     e.preventDefault();
+
     const payload = {
-      username: document.getElementById("username").value.trim(),
-      password: document.getElementById("password").value.trim()
+      username: usernameInput.value.trim(),
+      password: passwordInput.value.trim()
     };
-    const response = await fetch("https://fixomatic.onrender.com/auth/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
+
+    try {
+      const response = await fetch("https://fixomatic.onrender.com/auth/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
       const result = await response.json();
       if (result.success) {
         localStorage.setItem("username", result.username);
@@ -64,6 +68,7 @@
     }
   });
 </script>
+
 
 
 </body>
