@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>In-Progress Tickets - Fix-O-Matic</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="ticket-page">
+  <header class="navbar">
+    <h1 class="logo">🔧 Fix-O-Matic</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="in-progress.html" class="active">In-Progress</a>
+      <a href="completed.html">Completed</a>
+      <a href="#" id="logoutButton">Logout</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>🛠 In-Progress Tickets</h2>
+    <div id="ticketList" class="ticket-list">
+      <!-- Tickets will be dynamically loaded here -->
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const ticketList = document.getElementById("ticketList");
+      const username = localStorage.getItem("username");
+
+      if (!username) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      try {
+        const response = await fetch("https://fixomatic.onrender.com/tickets/in-progress", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ assigned_to: username })
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to load tickets.");
+        }
+
+        const tickets = await response.json();
+
+        if (tickets.length === 0) {
+          ticketList.innerHTML = "<p>No tickets currently in progress.</p>";
+          return;
+        }
+
+        tickets.forEach(ticket => {
+          const card = document.createElement("div");
+          card.className = "ticket-card";
+          card.innerHTML = `
+            <h3>Ticket #${ticket.id}</h3>
+            <p><strong>Issue:</strong> ${ticket.issue}</p>
+            <p><strong>Description:</strong> ${ticket.description}</p>
+            <p><strong>Severity:</strong> ${ticket.severity}</p>
+            <p><strong>Status:</strong> ${ticket.status}</p>
+          `;
+          ticketList.appendChild(card);
+        });
+      } catch (err) {
+        ticketList.innerHTML = `<p class="error">Error: ${err.message}</p>`;
+      }
+    });
+
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      localStorage.clear();
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

@@ -98,3 +98,23 @@ async def list_tickets(user: Optional[str] = Query(default=None)):
             created_at=str(r[5]) if r[5] else None
         ) for r in rows
     ]
+
+@router.get("/in-progress", response_model=List[TicketOut])
+async def get_in_progress_tickets():
+    conn = await get_connection()
+    async with conn.cursor() as cur:
+        await cur.execute(
+            "SELECT id, title, description, status, created_by, created_at FROM tickets WHERE status = 'in-progress'"
+        )
+        rows = await cur.fetchall()
+
+    return [
+        TicketOut(
+            id=r[0],
+            title=r[1],
+            description=r[2],
+            status=r[3],
+            created_by=r[4],
+            created_at=str(r[5]) if r[5] else None
+        ) for r in rows
+    ]
