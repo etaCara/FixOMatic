@@ -70,21 +70,20 @@
               "Accept": "application/json"
             }
           });
-        
+
           if (!response.ok) {
             throw new Error(`HTTP ${response.status} - ${response.statusText}`);
           }
-        
+
           const tickets = await response.json();
           console.log("Fetched tickets:", tickets);
-          // Continue rendering or handling the tickets here...
-        
-        } catch (error) {
-          console.error("Failed to fetch in-progress tickets:", error);
-          alert("Could not load in-progress tickets. Please try again later.");
-        }
 
-          ticketRowsContainer.innerHTML = '';
+          ticketRowsContainer.innerHTML = ''; // Clear loading message
+
+          if (tickets.length === 0) {
+            ticketRowsContainer.innerHTML = `<p>No in-progress tickets found.</p>`;
+            return;
+          }
 
           tickets.forEach(ticket => {
             const row = document.createElement('div');
@@ -92,13 +91,17 @@
 
             row.innerHTML = `
               <a href="ticket.html?id=${ticket.id}" class="ticket-col id">#${ticket.id}</a>
-              <span class="ticket-col issue">${ticket.issue_type || '—'}</span>
-              <span class="ticket-col assigned">${ticket.assigned_to || 'Unassigned'}</span>
-              <span class="ticket-col status"><span class="status ${ticket.severity?.toLowerCase() || 'unknown'}">${ticket.status || '—'}</span></span>
-              <span class="ticket-col severity">${ticket.severity || '—'}</span>
+              <span class="ticket-col issue">${ticket.title || '—'}</span>
+              <span class="ticket-col assigned">${ticket.created_by || 'Unassigned'}</span>
+              <span class="ticket-col status">
+                <span class="status ${ticket.status?.toLowerCase() || 'unknown'}">${ticket.status || '—'}</span>
+              </span>
+              <span class="ticket-col severity">—</span> <!-- No severity yet -->
             `;
+
             ticketRowsContainer.appendChild(row);
           });
+
         } catch (error) {
           console.error("Error loading tickets:", error);
           ticketRowsContainer.innerHTML = `<p style="color: red;">Failed to load tickets. Please try again later.</p>`;
