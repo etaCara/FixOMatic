@@ -188,7 +188,7 @@ async def list_tickets(user: Optional[str] = Query(default=None)):
             title=r[1],
             description=r[2],
             status=r[3],
-            assigned_to=r[4]
+            assigned_to=r[4],
             severity=r[5],
             created_by=r[6],
             created_at=str(r[7]) if r[7] else None
