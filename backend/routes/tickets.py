@@ -28,7 +28,7 @@ class TicketUpdate(BaseModel):
 
 # --- Routes ---
 
-@router.put("/tickets/{ticket_id}")
+@router.put("/{ticket_id}")
 async def update_ticket(ticket_id: int, ticket: TicketUpdate):
     conn = await get_connection()
     async with conn.cursor() as cur:
