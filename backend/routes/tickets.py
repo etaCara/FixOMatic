@@ -13,6 +13,7 @@ class TicketCreate(BaseModel):
     title: str
     description: str
     status: str = "Open"
+    assigned_to: Optional[str] = None
     severity: Optional[str] = None
     created_by: Optional[str] = None  # maps to customerID
 
@@ -21,6 +22,7 @@ class TicketOut(BaseModel):
     title: str
     description: str
     status: str
+    assigned_to: Optional[str] = None
     severity: Optional[str] = None
     created_by: Optional[str] = None
     created_at: Optional[str] = None
@@ -29,6 +31,7 @@ class TicketUpdate(BaseModel):
     title: str
     description: str
     status: str
+    assigned_to: Optional[str] = None
     severity: Optional[str] = None
 
 # ========================
@@ -42,17 +45,17 @@ async def create_ticket(ticket: TicketCreate):
     async with conn.cursor() as cur:
         await cur.execute(
             """
-            INSERT INTO tickets (title, description, status, severity, customerID, opened_datetime)
+            INSERT INTO tickets (title, description, status, assigned_to, severity, customerID, opened_datetime)
             VALUES (%s, %s, %s, %s, %s, NOW())
             """,
-            (ticket.title, ticket.description, ticket.status, ticket.severity, ticket.created_by)
+            (ticket.title, ticket.description, ticket.status, ticket.assigned_to, ticket.severity, ticket.created_by)
         )
         await conn.commit()
         ticket_id = cur.lastrowid
 
         await cur.execute(
             """
-            SELECT TicketID, title, description, status, severity, customerID, opened_datetime
+            SELECT TicketID, title, description, status, assigned_to, severity, customerID, opened_datetime
             FROM tickets
             WHERE TicketID = %s
             """,
@@ -68,9 +71,10 @@ async def create_ticket(ticket: TicketCreate):
         title=row[1],
         description=row[2],
         status=row[3],
-        severity=row[4],
-        created_by=row[5],
-        created_at=str(row[6]) if row[6] else None
+        assigned_to=row[4],
+        severity=row[5],
+        created_by=row[6],
+        created_at=str(row[7]) if row[7] else None
     )
 
 # -------- UPDATE TICKET --------
@@ -88,10 +92,10 @@ async def update_ticket(ticket_id: int, ticket: TicketUpdate):
         await cur.execute(
             """
             UPDATE tickets
-            SET title=%s, description=%s, status=%s, severity=%s, last_updated_datetime=NOW()
+            SET title=%s, description=%s, status=%s, assigned_to=%s, severity=%s, last_updated_datetime=NOW()
             WHERE TicketID=%s
             """,
-            (ticket.title, ticket.description, ticket.status, ticket.severity, ticket_id)
+            (ticket.title, ticket.description, ticket.status, ticket.assigned_to, ticket.severity, ticket_id)
         )
 
         await conn.commit()
@@ -105,7 +109,7 @@ async def get_in_progress_tickets():
     async with conn.cursor() as cur:
         await cur.execute(
             """
-            SELECT TicketID, title, description, status, severity, customerID, opened_datetime
+            SELECT TicketID, title, description, status, assigned_to, severity, customerID, opened_datetime
             FROM tickets
             WHERE status = 'In-Process'
             """
@@ -118,9 +122,10 @@ async def get_in_progress_tickets():
             title=r[1],
             description=r[2],
             status=r[3],
-            severity=r[4],
-            created_by=r[5],
-            created_at=str(r[6]) if r[6] else None
+            assigned_to=r[4],
+            severity=r[5],
+            created_by=r[6],
+            created_at=str(r[7]) if r[7] else None
         )
         for r in rows
     ]
@@ -132,7 +137,7 @@ async def get_ticket(ticket_id: str):
     async with conn.cursor() as cur:
         await cur.execute(
             """
-            SELECT TicketID, title, description, status, severity, customerID, opened_datetime
+            SELECT TicketID, title, description, status, assigned_to, severity, customerID, opened_datetime
             FROM tickets
             WHERE TicketID = %s
             """,
@@ -148,9 +153,10 @@ async def get_ticket(ticket_id: str):
         title=row[1],
         description=row[2],
         status=row[3],
-        severity=row[4],
-        created_by=row[5],
-        created_at=str(row[6]) if row[6] else None
+        assigned_to=row[4],
+        severity=row[5],
+        created_by=row[6],
+        created_at=str(row[7]) if row[7] else None
     )
 
 # -------- LIST ALL TICKETS --------
@@ -161,7 +167,7 @@ async def list_tickets(user: Optional[str] = Query(default=None)):
         if user:
             await cur.execute(
                 """
-                SELECT TicketID, title, description, status, severity, customerID, opened_datetime
+                SELECT TicketID, title, description, status, assigned_to, severity, customerID, opened_datetime
                 FROM tickets
                 WHERE customerID = %s
                 """,
@@ -170,7 +176,7 @@ async def list_tickets(user: Optional[str] = Query(default=None)):
         else:
             await cur.execute(
                 """
-                SELECT TicketID, title, description, status, severity, customerID, opened_datetime
+                SELECT TicketID, title, description, status, assigned_to, severity, customerID, opened_datetime
                 FROM tickets
                 """
             )
@@ -182,9 +188,10 @@ async def list_tickets(user: Optional[str] = Query(default=None)):
             title=r[1],
             description=r[2],
             status=r[3],
-            severity=r[4],
-            created_by=r[5],
-            created_at=str(r[6]) if r[6] else None
+            assigned_to=r[4]
+            severity=r[5],
+            created_by=r[6],
+            created_at=str(r[7]) if r[7] else None
         )
         for r in rows
     ]
