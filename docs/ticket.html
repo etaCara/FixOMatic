@@ -26,15 +26,28 @@
 
   <main class="container">
     <section class="card">
-      <h2>🎟️ Ticket Details</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>🎟️ Ticket Details</h2>
+        <button id="editBtn" class="edit-btn">✏️ Edit</button>
+      </div>
+
       <div class="ticket-details" id="ticketDetails">
         <p>Loading ticket data...</p>
       </div>
+
+      <div id="actionButtons" style="display: none; margin-top: 10px;">
+        <button id="saveBtn" class="save-btn">💾 Save Changes</button>
+        <button id="cancelBtn" class="cancel-btn">❌ Cancel</button>
+      </div>
+
       <a href="in-process.html" class="back-link">← Back to Tickets</a>
     </section>
   </main>
 
   <script>
+    let ticket = {};
+    let editMode = false;
+
     async function loadTicketDetails() {
       const urlParams = new URLSearchParams(window.location.search);
       const ticketId = urlParams.get("id");
@@ -47,27 +60,88 @@
 
       try {
         const response = await fetch(`https://fixomatic.onrender.com/tickets/${ticketId}`);
-        if (!response.ok) {
-          throw new Error("Ticket not found");
-        }
+        if (!response.ok) throw new Error("Ticket not found");
 
-        const ticket = await response.json();
-
-        container.innerHTML = `
-          <p><strong>ID:</strong> <span>#${ticket.id}</span></p>
-          <p><strong>Issue:</strong> <span>${ticket.issue_type}</span></p>
-          <p><strong>Description:</strong> <span>${ticket.description}</span></p>
-          <p><strong>Assigned To:</strong> <span>${ticket.assigned_to || "Unassigned"}</span></p>
-          <p><strong>Status:</strong> <span>${ticket.status}</span></p>
-          <p><strong>Severity:</strong> <span>${ticket.severity}</span></p>
-          <p><strong>Created On:</strong> <span>${new Date(ticket.created_at).toLocaleDateString()}</span></p>
-          <p><strong>Created By:</strong> <span>${ticket.created_by || "Unknown"}</span></p>
-        `;
+        ticket = await response.json();
+        renderTicketDetails();
       } catch (err) {
         console.error("Error loading ticket:", err);
         container.innerHTML = "<p style='color:red;'>❌ Failed to load ticket details. Please try again later.</p>";
       }
     }
+
+    function renderTicketDetails() {
+      const container = document.getElementById("ticketDetails");
+
+      if (!editMode) {
+        container.innerHTML = `
+          <p><strong>ID:</strong> #${ticket.id}</p>
+          <p><strong>Title:</strong> ${ticket.title}</p>
+          <p><strong>Description:</strong> ${ticket.description}</p>
+          <p><strong>Status:</strong> ${ticket.status}</p>
+          <p><strong>Severity:</strong> ${ticket.severity || "N/A"}</p>
+        `;
+      } else {
+        container.innerHTML = `
+          <p><strong>Title:</strong> <input type="text" id="titleInput" value="${ticket.title}" /></p>
+          <p><strong>Description:</strong> <textarea id="descInput">${ticket.description}</textarea></p>
+          <p><strong>Status:</strong>
+            <select id="statusInput">
+              <option value="Open" ${ticket.status === "Open" ? "selected" : ""}>Open</option>
+              <option value="In-Process" ${ticket.status === "In-Process" ? "selected" : ""}>In-Process</option>
+              <option value="Closed" ${ticket.status === "Closed" ? "selected" : ""}>Closed</option>
+            </select>
+          </p>
+          <p><strong>Severity:</strong> <input type="text" id="severityInput" value="${ticket.severity || ""}" /></p>
+        `;
+      }
+    }
+
+    document.getElementById("editBtn").addEventListener("click", () => {
+      editMode = !editMode;
+      document.getElementById("actionButtons").style.display = editMode ? "block" : "none";
+      document.getElementById("editBtn").textContent = editMode ? "🔒 View" : "✏️ Edit";
+      renderTicketDetails();
+    });
+
+    document.getElementById("cancelBtn").addEventListener("click", () => {
+      editMode = false;
+      document.getElementById("actionButtons").style.display = "none";
+      document.getElementById("editBtn").textContent = "✏️ Edit";
+      renderTicketDetails();
+    });
+
+    document.getElementById("saveBtn").addEventListener("click", async () => {
+      const updatedTicket = {
+        ...ticket,
+        title: document.getElementById("titleInput").value,
+        description: document.getElementById("descInput").value,
+        status: document.getElementById("statusInput").value,
+        severity: document.getElementById("severityInput").value
+      };
+
+      try {
+        const response = await fetch(`https://fixomatic.onrender.com/tickets/${ticket.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(updatedTicket)
+        });
+
+        if (!response.ok) throw new Error("Failed to update ticket");
+
+        ticket = await response.json();
+        alert("✅ Ticket updated successfully!");
+        editMode = false;
+        document.getElementById("actionButtons").style.display = "none";
+        document.getElementById("editBtn").textContent = "✏️ Edit";
+        renderTicketDetails();
+      } catch (err) {
+        console.error("Update failed:", err);
+        alert("❌ Failed to update ticket. Please try again.");
+      }
+    });
 
     window.addEventListener("DOMContentLoaded", loadTicketDetails);
   </script>
