@@ -317,6 +317,32 @@ body.login-page {
   text-align: center;
 }
 
+/* =========================
+   LOGIN FORM FLOATING LABELS
+========================= */
+.login-container .form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.login-container .form-group input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #000;
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.login-container .form-group input:focus {
+  border-color: #ff4d4d;
+  box-shadow: 0 0 6px rgba(255, 77, 77, 0.5);
+}
+
 /* Label Styling */
 .login-container .form-group label {
   position: absolute;
@@ -326,9 +352,19 @@ body.login-page {
   font-size: 1rem;
   pointer-events: none;
   transition: 0.2s ease all;
-  background-color: white; 
+  background-color: white; /* fixes overlap issue */
   padding: 0 5px;
 }
+
+/* Floating label effect */
+.login-container .form-group input:focus + label,
+.login-container .form-group input:not(:placeholder-shown) + label {
+  top: -8px;
+  left: 8px;
+  font-size: 0.8rem;
+  color: #ff4d4d;
+}
+
 
 .login-container input {
   width: 100%;
