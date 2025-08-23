@@ -96,7 +96,7 @@
               <span class="ticket-col status">
                 <span class="status ${ticket.status?.toLowerCase() || 'unknown'}">${ticket.status || '—'}</span>
               </span>
-              <span class="ticket-col severity">—</span> <!-- No severity yet -->
+              <span class="ticket-col severity">${ticket.severity || 'N/A'}</span>
             `;
 
             ticketRowsContainer.appendChild(row);
