@@ -273,3 +273,44 @@ body.login-page {
   visibility: visible;
   opacity: 1;
 }
+
+.ticket-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin: 12px 0;
+  transition: transform 0.2s ease-in-out;
+}
+
+.ticket-card:hover {
+  transform: scale(1.02);
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticket-status {
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.ticket-status.in-process {
+  background-color: #facc15;
+  color: #000;
+}
+
+.ticket-status.open {
+  background-color: #3b82f6;
+  color: #fff;
+}
+
+.ticket-status.closed {
+  background-color: #16a34a;
+  color: #fff;
+}
+
