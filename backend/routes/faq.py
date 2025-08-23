@@ -21,9 +21,8 @@ async def get_all_faq():
     conn = await get_connection()
     async with conn.cursor() as cur:
         await cur.execute("""
-            SELECT KAID, title, author, solution, created_at
-            FROM knowledge_articles
-            ORDER BY created_at DESC
+            SELECT id, title, author, content, created_at
+            FROM knowledge_base
         """)
         rows = await cur.fetchall()
 
