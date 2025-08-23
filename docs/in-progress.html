@@ -64,6 +64,7 @@
             <div class="ticket-body">
               <p><strong>Description:</strong> ${ticket.description}</p>
               <p><strong>Severity:</strong> ${ticket.severity ?? "N/A"}</p>
+              <p><strong>Assigned To:</strong>${ticket.assigned_to ?? "N/A"}</p>
               <p><strong>Created:</strong> ${ticket.created_at ? new Date(ticket.created_at).toLocaleString() : "Unknown"}</p>
             </div>
             <div class="ticket-footer">
