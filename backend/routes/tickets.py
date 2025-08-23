@@ -10,15 +10,15 @@ class TicketCreate(BaseModel):
     title: str
     description: str
     status: str = "open"
-    created_by: Optional[str] = None  # Add tracking of creator (optional)
+    created_by: Optional[str] = None  # maps to customerID
 
 class TicketOut(BaseModel):
-    id: int
+    id: str  # TicketID is varchar
     title: str
     description: str
     status: str
-    created_by: Optional[str] = None  # Include creator in response
-    created_at: Optional[str] = None  # Assuming ticket has timestamp
+    created_by: Optional[str] = None  # maps to customerID
+    created_at: Optional[str] = None  # maps to opened_datetime
 
 # --- Routes ---
 
@@ -28,7 +28,7 @@ async def create_ticket(ticket: TicketCreate):
     async with conn.cursor() as cur:
         await cur.execute(
             """
-            INSERT INTO tickets (title, description, status, created_by)
+            INSERT INTO tickets (title, description, status, customerID)
             VALUES (%s, %s, %s, %s)
             """,
             (ticket.title, ticket.description, ticket.status, ticket.created_by)
@@ -36,8 +36,14 @@ async def create_ticket(ticket: TicketCreate):
         await conn.commit()
         ticket_id = cur.lastrowid
 
-        # Fetch created ticket to return complete info (created_at, etc.)
-        await cur.execute("SELECT id, title, description, status, created_by, created_at FROM tickets WHERE id = %s", (ticket_id,))
+        await cur.execute(
+            """
+            SELECT TicketID, title, description, status, customerID, opened_datetime
+            FROM tickets
+            WHERE TicketID = %s
+            """,
+            (ticket_id,)
+        )
         row = await cur.fetchone()
 
     if not row:
@@ -57,7 +63,11 @@ async def get_in_progress_tickets():
     conn = await get_connection()
     async with conn.cursor() as cur:
         await cur.execute(
-            "SELECT id, title, description, status, created_by, created_at FROM tickets WHERE status = 'in-progress'"
+            """
+            SELECT TicketID, title, description, status, customerID, opened_datetime
+            FROM tickets
+            WHERE status = 'in-progress'
+            """
         )
         rows = await cur.fetchall()
 
@@ -71,13 +81,17 @@ async def get_in_progress_tickets():
             created_at=str(r[5]) if r[5] else None
         ) for r in rows
     ]
-    
+
 @router.get("/{ticket_id}", response_model=TicketOut)
-async def get_ticket(ticket_id: int):
+async def get_ticket(ticket_id: str):
     conn = await get_connection()
     async with conn.cursor() as cur:
         await cur.execute(
-            "SELECT id, title, description, status, created_by, created_at FROM tickets WHERE id = %s",
+            """
+            SELECT TicketID, title, description, status, customerID, opened_datetime
+            FROM tickets
+            WHERE TicketID = %s
+            """,
             (ticket_id,)
         )
         row = await cur.fetchone()
@@ -99,12 +113,19 @@ async def list_tickets(user: Optional[str] = Query(default=None)):
     async with conn.cursor() as cur:
         if user:
             await cur.execute(
-                "SELECT id, title, description, status, created_by, created_at FROM tickets WHERE created_by = %s",
+                """
+                SELECT TicketID, title, description, status, customerID, opened_datetime
+                FROM tickets
+                WHERE customerID = %s
+                """,
                 (user,)
             )
         else:
             await cur.execute(
-                "SELECT id, title, description, status, created_by, created_at FROM tickets"
+                """
+                SELECT TicketID, title, description, status, customerID, opened_datetime
+                FROM tickets
+                """
             )
         rows = await cur.fetchall()
 
