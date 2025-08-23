@@ -115,7 +115,7 @@
       const ticketData = {
         title: formData.get("impact"),
         description: formData.get("description"),
-        status: "Open", // default from backend
+        status: "In-Process", // default from backend
         assigned_to: "Larry" || null,
         severity: formData.get("severity") || null,
         created_by: localStorage.getItem("username")
