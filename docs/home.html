@@ -92,7 +92,7 @@
             row.innerHTML = `
               <a href="ticket.html?id=${ticket.id}" class="ticket-col id">#${ticket.id}</a>
               <span class="ticket-col issue">${ticket.title || '—'}</span>
-              <span class="ticket-col assigned">${ticket.customerID || 'Unassigned'}</span>
+              <span class="ticket-col assigned">${ticket.assigned_to || 'Unassigned'}</span>
               <span class="ticket-col status">
                 <span class="status ${ticket.status?.toLowerCase() || 'unknown'}">${ticket.status || '—'}</span>
               </span>
