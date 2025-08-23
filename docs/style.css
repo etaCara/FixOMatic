@@ -12,6 +12,10 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+h2 {
+  color: #000; /* Set to black or any color you want */
+}
+
 /* =========================
    CONTAINER & SECTIONS
 ========================= */
