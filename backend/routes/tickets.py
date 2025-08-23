@@ -43,16 +43,25 @@ class TicketUpdate(BaseModel):
 async def create_ticket(ticket: TicketCreate):
     conn = await get_connection()
     async with conn.cursor() as cur:
+        # ✅ Fixed mismatch between columns and values
         await cur.execute(
             """
             INSERT INTO tickets (title, description, status, assigned_to, severity, customerID, opened_datetime)
-            VALUES (%s, %s, %s, %s, %s, NOW())
+            VALUES (%s, %s, %s, %s, %s, %s, NOW())
             """,
-            (ticket.title, ticket.description, ticket.status, ticket.assigned_to, ticket.severity, ticket.created_by)
+            (
+                ticket.title,
+                ticket.description,
+                ticket.status,
+                ticket.assigned_to,
+                ticket.severity,
+                ticket.created_by  # Assuming 'created_by' maps to customerID
+            )
         )
         await conn.commit()
         ticket_id = cur.lastrowid
 
+        # ✅ Fetch the newly created ticket
         await cur.execute(
             """
             SELECT TicketID, title, description, status, assigned_to, severity, customerID, opened_datetime
