@@ -12,7 +12,7 @@ router = APIRouter()
 class TicketCreate(BaseModel):
     title: str
     description: str
-    status: str = "Open"
+    status: str = "In-Process"
     assigned_to: Optional[str] = None
     severity: Optional[str] = None
     created_by: Optional[str] = None  # maps to customerID
