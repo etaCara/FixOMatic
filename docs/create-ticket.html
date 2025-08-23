@@ -62,91 +62,88 @@
     </section>
   </main>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // ✅ Check if user is logged in
-      const username = localStorage.getItem("username");
-      if (!username) {
-        window.location.href = "index.html";
-        return;
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const issueSelect = document.getElementById("issueType");
+    const dynamicFields = document.getElementById("dynamicFields");
+    const ticketForm = document.getElementById("ticketForm");
+
+    // Show dynamic fields when issue type is selected
+    issueSelect.addEventListener("change", () => {
+      dynamicFields.innerHTML = `
+        <div class="form-group">
+          <label>Department</label>
+          <select name="department" required>
+            <option value="" disabled selected>Select a department</option>
+            <option>IT</option>
+            <option>HR</option>
+            <option>Finance</option>
+            <option>Operations</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Priority</label>
+          <select name="severity" required>
+            <option value="" disabled selected>Select priority</option>
+            <option>Routine</option>
+            <option>Immediate</option>
+            <option>Urgent</option>
+          </select>
+        </div>
+
+
+        <div class="form-group">
+          <label>Best Time to Contact</label>
+          <input type="text" name="contact_time" placeholder="e.g., Weekdays 9AM-12PM" />
+        </div>
+
+        <div class="form-group">
+          <label>Issue Name:</label>
+          <textarea rows="3" name="impact" placeholder="Subject of your Issue>"></textarea>
+        </div>
+      `;
+    });
+
+    // Handle ticket form submission
+    ticketForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      // Collect values directly from the form
+      const formData = new FormData(ticketForm);
+
+      const ticketData = {
+        title: formData.get("impact"),
+        description: formData.get("description"),
+        status: "Open", // default from backend
+        assigned_to: "Larry" || null,
+        severity: formData.get("severity") || null,
+        created_by: localStorage.getItem("username")
+      };
+
+      try {
+        const res = await fetch("https://fixomatic.onrender.com/tickets/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(ticketData)
+        });
+
+        if (res.ok) {
+          alert("✅ Ticket created successfully!");
+          window.location.href = "home.html";
+        } else {
+          const err = await res.json();
+          alert(`❌ Failed to create ticket: ${err.detail || res.statusText}`);
+        }
+      } catch (error) {
+        console.error("⚠️ Error submitting ticket:", error);
+        alert("⚠️ Network or server error.");
       }
-    
-      const issueSelect = document.getElementById("issueType");
-      const dynamicFields = document.getElementById("dynamicFields");
-      const ticketForm = document.getElementById("ticketForm");
-    
-      // ✅ Show dynamic fields when issue type changes
-      issueSelect.addEventListener("change", () => {
-          dynamicFields.innerHTML = `
-            <div class="form-group">
-              <label>Department</label>
-              <select name="department" required>
-                <option value="" disabled selected>Select a department</option>
-                <option>IT</option>
-                <option>HR</option>
-                <option>Finance</option>
-                <option>Operations</option>
-              </select>
-            </div>
-      
-            <div class="form-group">
-              <label>Priority</label>
-              <select name="priority" required>
-                <option value="" disabled selected>Select priority</option>
-                <option>Routine</option>
-                <option>Immediate</option>
-                <option>Urgent</option>
-              </select>
-            </div>
-      
-            <div class="form-group">
-              <label>Location (if applicable)</label>
-              <input type="text" name="location" placeholder="e.g., Floor 2 - Room 204" required />
-            </div>
-      
-            <div class="form-group">
-              <label>Best Time to Contact</label>
-              <input type="text" name="contact_time" placeholder="e.g., Weekdays 9AM-12PM" />
-            </div>
-      
-            <div class="form-group">
-              <label>Impact Description</label>
-              <textarea rows="3" name="impact" placeholder="Explain how this issue affects your work"></textarea>
-            </div>
-          `;
-        });
-      
-        // ✅ Handle ticket form submission
-        ticketForm.addEventListener("submit", async function (e) {
-          e.preventDefault();
-      
-          // Gather form data
-          const formData = new FormData(ticketForm);
-          formData.append("created_by", localStorage.getItem("username"));
-      
-          try {
-            const res = await fetch("https://fixomatic.onrender.com/tickets/create", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify(Object.fromEntries(formData)) // Convert FormData to JSON
-            });
-      
-            if (res.ok) {
-              alert("✅ Ticket created successfully!");
-              window.location.href = "home.html";
-            } else {
-              alert("❌ Failed to create ticket. Please try again.");
-            }
-          } catch (err) {
-            console.error("Ticket creation error:", err);
-            alert("⚠️ Error submitting ticket. Please try later.");
-          }
-        });
-      });
-  </script>
-  
+    });
+  });
+</script>
 </body>
 </html>
 </body>
