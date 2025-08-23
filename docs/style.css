@@ -28,6 +28,15 @@ select option {
   background-color: white;
 }
 
+pre {
+    color: #000000; /* Makes the steps black */
+    background-color: #f8f8f8; /* Light background for readability */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    white-space: pre-line; /* Keeps line breaks */
+}
+
 
 /* =========================
    CONTAINER & SECTIONS
