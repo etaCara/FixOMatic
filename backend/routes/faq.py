@@ -8,38 +8,34 @@ from db import get_connection
 router = APIRouter()  
 
 class FAQOut(BaseModel):
-    KAID: str
+    id: str
     title: str
     author: str
     content: str
-    created_at: Optional[datetime]
-    updated_at: Optional[datetime]
+    created_at: Optional[str]
 
 
 # -------- GET ALL FAQS --------
 @router.get("/faq", response_model=List[FAQOut])
-async def get_all_faqs():
+async def get_all_faq():
     conn = await get_connection()
     async with conn.cursor() as cur:
         await cur.execute("""
-            SELECT KAID, title, author, content, created_at, updated_at
+            SELECT KAID, title, author, solution, created_at
             FROM knowledge_articles
+            ORDER BY created_at DESC
         """)
         rows = await cur.fetchall()
-    
-    if not rows:
-        raise HTTPException(status_code=404, detail="No FAQs found")
 
     return [
         FAQOut(
-            KAID=row[0],
-            title=row[1],
-            author=row[2],
-            content=row[3],
-            created_at=row[4],
-            updated_at=row[5]
+            id=r[0],
+            title=r[1],
+            author=r[2],
+            content=r[3],  
+            created_at=str(r[4]) if r[4] else None
         )
-        for row in rows
+        for r in rows
     ]
 
 # -------- GET SINGLE FAQ --------
@@ -58,10 +54,11 @@ async def get_faq(ka_id: str):
         raise HTTPException(status_code=404, detail="FAQ not found")
 
     return FAQOut(
-        KAID=row[0],
-        title=row[1],
-        author=row[2],
-        content=row[3],
-        created_at=row[4],
-        updated_at=row[5]
+            id=r[0],
+            title=r[1],
+            author=r[2],
+            content=r[3], 
+            created_at=str(r[4]) if r[4] else None
     )
+            for r in rows
+    ]
