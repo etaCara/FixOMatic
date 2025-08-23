@@ -11,6 +11,34 @@
       window.location.href = "index.html";
     }
   </script>
+  <style>
+    .faq-item {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .faq-item h3 {
+      margin: 0 0 8px;
+      color: #333;
+    }
+
+    .faq-item p {
+      margin: 5px 0;
+      color: #444;
+    }
+
+    .faq-item pre {
+      background: #f7f7f7;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
 </head>
 <body>
   <header class="navbar">
@@ -27,39 +55,43 @@
   <main class="container">
     <section class="card" id="faqContainer">
       <h2>❓ Frequently Asked Questions</h2>
-      <p>Loading FAQs...</p>
+      <div id="faqList">
+        <p>Loading FAQs...</p>
+      </div>
     </section>
   </main>
 
   <script>
-    async function loadFAQs() {
+    document.addEventListener("DOMContentLoaded", async () => {
+      const faqList = document.getElementById("faqList");
+    
       try {
-        const res = await fetch("https://fixomatic.onrender.com/faqs");
-        if (!res.ok) throw new Error("Server error");
-        const data = await res.json();
-
-        const container = document.getElementById("faqContainer");
-        container.innerHTML = "<h2>❓ Frequently Asked Questions</h2>";
-
-        if (!data.length) {
-          container.innerHTML += "<p>No FAQs available at the moment.</p>";
+        const res = await fetch("https://fixomatic.onrender.com/knowledge/faq");
+        if (!res.ok) throw new Error("Failed to load FAQs");
+    
+        const faqs = await res.json();
+    
+        if (faqs.length === 0) {
+          faqList.innerHTML = "<p>No FAQs available.</p>";
           return;
         }
-
-        data.forEach(faq => {
+    
+        faqList.innerHTML = ""; // Clear loading text
+    
+        faqs.forEach(faq => {
           const item = document.createElement("div");
-          item.className = "faq-item";
-          item.innerHTML = `<h3>${faq.question}</h3><p>${faq.answer}</p>`;
-          container.appendChild(item);
+          item.classList.add("faq-item");
+          item.innerHTML = `
+            <h3>${faq.title}</h3>
+            <p><strong>Author:</strong> ${faq.author}</p>
+            <pre>${faq.content}</pre>
+          `;
+          faqList.appendChild(item);
         });
       } catch (err) {
-        console.error("Failed to load FAQs", err);
-        const container = document.getElementById("faqContainer");
-        container.innerHTML += `<p style="color:red;">Unable to load FAQs. Please try again later.</p>`;
+        faqList.innerHTML = `<p class="error">Error: ${err.message}</p>`;
       }
-    }
-
-    window.addEventListener("DOMContentLoaded", loadFAQs);
+    });
   </script>
 </body>
 </html>
