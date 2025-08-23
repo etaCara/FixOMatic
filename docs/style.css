@@ -16,6 +16,19 @@ h2 {
   color: #000; /* Set to black or any color you want */
 }
 
+/* Make dropdown text black */
+select {
+  color: black;
+  background-color: white;  /* Optional: makes it match a light theme */
+}
+
+/* Style dropdown options as well */
+select option {
+  color: black;
+  background-color: white;
+}
+
+
 /* =========================
    CONTAINER & SECTIONS
 ========================= */
