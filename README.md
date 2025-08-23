@@ -20,12 +20,20 @@ This repository contains the source code for Fix-O-Matic, a web-based IT ticketi
 
 The application allows users to:
 
-  Log in to their accounts
+  -Log in to their accounts
 
-  Create and submit IT support tickets
+  -Create and submit IT support tickets
 
-  View ticket details and track status
+  -View ticket details and track status
 
-  Manage account information
+  -Manage account information
 
 All ticket and user data is securely stored in the connected database for easy retrieval and management by the IT team.
+
+--- URL Link ---
+
+Copy and paste this following link in your URL bar to be directed to the login page.
+
+  https://etacara.github.io/FixOMatic/home.html
+
+Afterwards you will be directed to the Home page where you can submit your tickets, review ticket history or edit account details.
