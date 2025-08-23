@@ -12,31 +12,61 @@
     }
   </script>
   <style>
+    /* FAQ Container */
+    #faqContainer {
+      background-color: #1c1c1c; /* Matches tickets page background */
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    #faqContainer h2 {
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    /* FAQ Cards */
     .faq-item {
-      background: #fff;
+      background-color: #2b2b2b; /* Same as ticket cards */
+      color: #fff;
       padding: 15px;
       margin-bottom: 15px;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
+    .faq-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    /* FAQ Titles */
     .faq-item h3 {
       margin: 0 0 8px;
-      color: #333;
+      font-size: 1.2rem;
+      color: #fff;
     }
 
+    /* Author Styling */
     .faq-item p {
-      margin: 5px 0;
-      color: #444;
+      margin: 5px 0 10px;
+      color: #ccc;
+      font-style: italic;
     }
 
+    /* FAQ Steps / Code Blocks */
     .faq-item pre {
-      background: #f7f7f7;
+      background-color: #1e1e1e;
+      color: #f1f1f1;
+      border: 1px solid #444;
+      border-radius: 6px;
       padding: 10px;
-      border-radius: 5px;
-      overflow-x: auto;
+      font-family: "Courier New", monospace;
+      font-size: 0.95rem;
       white-space: pre-wrap;
       word-wrap: break-word;
+      overflow-x: auto;
     }
   </style>
 </head>
