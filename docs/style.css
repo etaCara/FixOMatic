@@ -354,6 +354,42 @@ body.login-page {
   opacity: 1;
 }
 
+/* Ticket Buttons - Match Login Button */
+.ticket-btn,
+.view-btn,
+.edit-btn,
+.save-btn,
+.cancel-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #1f2937;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.ticket-btn:hover,
+.view-btn:hover,
+.edit-btn:hover,
+.save-btn:hover,
+.cancel-btn:hover {
+  background-color: #3b3b3b;
+  transform: scale(1.03);
+}
+
+.ticket-btn:disabled,
+.view-btn:disabled,
+.edit-btn:disabled,
+.save-btn:disabled,
+.cancel-btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
 .ticket-card {
   background-color: #fff;
   border-radius: 8px;
