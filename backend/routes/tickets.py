@@ -39,7 +39,7 @@ class TicketUpdate(BaseModel):
 # ========================
 
 # -------- CREATE TICKET --------
-@router.post("/", response_model=TicketOut)
+@router.post("/create", response_model=TicketOut)
 async def create_ticket(ticket: TicketCreate):
     conn = await get_connection()
     async with conn.cursor() as cur:
