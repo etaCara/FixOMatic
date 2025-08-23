@@ -43,10 +43,10 @@ class TicketUpdate(BaseModel):
 async def create_ticket(ticket: TicketCreate):
     conn = await get_connection()
     async with conn.cursor() as cur:
-        # ✅ Fixed mismatch between columns and values
+        # ✅ No TicketID included here, MySQL will handle it automatically
         await cur.execute(
             """
-            INSERT INTO tickets (title, description, status, assigned_to, severity, customerID, opened_datetime)
+            INSERT INTO tickets (title, description, status, assigned_to, severity, created_by, opened_datetime)
             VALUES (%s, %s, %s, %s, %s, %s, NOW())
             """,
             (
@@ -55,16 +55,16 @@ async def create_ticket(ticket: TicketCreate):
                 ticket.status,
                 ticket.assigned_to,
                 ticket.severity,
-                ticket.created_by  # Assuming 'created_by' maps to customerID
+                ticket.created_by
             )
         )
         await conn.commit()
-        ticket_id = cur.lastrowid
+        ticket_id = cur.lastrowid  # ✅ Now MySQL generates this for us
 
-        # ✅ Fetch the newly created ticket
+        # ✅ Fetch the created ticket back
         await cur.execute(
             """
-            SELECT TicketID, title, description, status, assigned_to, severity, customerID, opened_datetime
+            SELECT TicketID, title, description, status, assigned_to, severity, created_by, opened_datetime
             FROM tickets
             WHERE TicketID = %s
             """,
@@ -85,6 +85,7 @@ async def create_ticket(ticket: TicketCreate):
         created_by=row[6],
         created_at=str(row[7]) if row[7] else None
     )
+
 
 # -------- UPDATE TICKET --------
 @router.put("/{ticket_id}")
