@@ -140,6 +140,35 @@ async def get_in_progress_tickets():
         for r in rows
     ]
 
+# -------- GET RESOLVED TICKETS --------
+@router.get("/history", response_model=List[TicketOut])
+async def get_resolved_tickets():
+    conn = await get_connection()
+    async with conn.cursor() as cur:
+        await cur.execute(
+            """
+            SELECT TicketID, title, description, status, assigned_to, severity, customerID, opened_datetime
+            FROM tickets
+            WHERE status = 'Resolved'
+            """
+        )
+        rows = await cur.fetchall()
+
+    # Build response list safely
+    return [
+        TicketOut(
+            id=row[0],
+            title=row[1],
+            description=row[2],
+            status=row[3],
+            assigned_to=row[4] if row[4] else None,
+            severity=row[5] if row[5] else None,
+            created_by=row[6],
+            created_at=str(row[7]) if row[7] else None
+        )
+        for row in rows
+    ]
+
 # -------- GET SINGLE TICKET --------
 @router.get("/{ticket_id}", response_model=TicketOut)
 async def get_ticket(ticket_id: str):
