@@ -77,6 +77,10 @@ body {
   outline: none;
 }
 
+.option {
+   text-color: black;
+}
+
 /* =========================
    BUTTONS
 ========================= */
@@ -180,6 +184,115 @@ input[type="file"] {
 .ticket-status.open { background-color: #3b82f6; color: #fff; }
 .ticket-status.in-process { background-color: #facc15; color: #000; }
 .ticket-status.closed { background-color: #16a34a; color: #fff; }
+
+/* =========================
+   TICKET FEED SECTION
+========================= */
+.ticket-feed {
+  padding: 1.5rem;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
+}
+
+/* Header */
+.ticket-feed h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Ticket Table Wrapper */
+.ticket-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Header Row */
+.ticket-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1.5fr 1fr 1fr;
+  padding: 12px 15px;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Ticket Rows */
+#ticketRows {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1.5fr 1fr 1fr;
+  padding: 12px 15px;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.ticket-row:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Ticket Status Badges */
+.ticket-row .status {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
+  text-transform: capitalize;
+}
+
+.status.in-process { background-color: #facc15; color: #000; }
+.status.open { background-color: #3b82f6; color: #fff; }
+.status.closed { background-color: #16a34a; color: #fff; }
+
+/* Severity Badges */
+.ticket-row .severity {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.severity.high { background-color: #ef4444; color: #fff; }
+.severity.medium { background-color: #f59e0b; color: #fff; }
+.severity.low { background-color: #10b981; color: #fff; }
+
+/* "View All" Button */
+.view-all {
+  display: inline-block;
+  margin-top: 1rem;
+  background-color: #1f2937;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.view-all:hover {
+  background-color: #3b3b3b;
+}
 
 /* =========================
    LOGIN PAGE
