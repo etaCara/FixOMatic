@@ -110,15 +110,28 @@
       e.preventDefault();
 
       const form = e.target;
-      const formData = new FormData(form);
-      formData.append("username", localStorage.getItem("username"));
+      
+      const title = form.title.value.trim();
+      const description = form.description.value.trim();
+      const status = form.status.value.trim();
+      const assigned_to = form.assigned_to.value.trim();
+      const severity = form.severity.value.trim();
+      const created_by = localStorage.getItem("username"); // from logged-in user
 
-      try {
-        const res = await fetch("https://your-backend-url.com/tickets/create", {
-          method: "POST",
-          body: formData
-        });
-
+      const res = await fetch("https://fixomatic.onrender.com/tickets/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          status,
+          assigned_to,
+          severity,
+          created_by
+        })
+      });
         if (res.ok) {
           alert("✅ Ticket created successfully!");
           window.location.href = "home.html";
