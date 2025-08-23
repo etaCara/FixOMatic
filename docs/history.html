@@ -3,18 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ticket History - Fix-O-Matic</title>
-  <link rel="stylesheet" href="style.css" />
-  <script>
-    const username = localStorage.getItem("username");
-    if (!username) {
-      window.location.href = "index.html";
-    }
-  </script>
+  <title>Resolved Tickets - Fix-O-Matic</title>
 </head>
-<body>
+<body class="ticket-page">
   <header class="navbar">
-    <h1 class="logo">🛠️ Fix-O-Matic</h1>
+    <h1 class="logo">🔧 Fix-O-Matic</h1>
     <nav>
       <a href="home.html">Home</a>
       <a href="create-ticket.html">Create</a>
@@ -25,57 +18,69 @@
   </header>
 
   <main class="container">
-    <section class="card">
-      <h2>📜 My Ticket History</h2>
-      <table class="ticket-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Issue</th>
-            <th>Status</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody id="ticketHistoryBody">
-          <tr><td colspan="4">Loading tickets...</td></tr>
-        </tbody>
-      </table>
-    </section>
+    <h2>✅ Resolved Tickets</h2>
+    <div id="ticketList" class="ticket-list">
+      <!-- Tickets will be dynamically loaded here -->
+    </div>
   </main>
 
   <script>
-    async function loadTicketHistory() {
+    document.addEventListener("DOMContentLoaded", async () => {
+      const ticketList = document.getElementById("ticketList");
       const username = localStorage.getItem("username");
-      const ticketBody = document.getElementById("ticketHistoryBody");
+
+      if (!username) {
+        window.location.href = "index.html";
+        return;
+      }
 
       try {
-        const response = await fetch("https://fixomatic.onrender.com/tickets?user=" + encodeURIComponent(username));
+        const response = await fetch("https://fixomatic.onrender.com/tickets/history", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" }
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to load tickets.");
+        }
+
         const tickets = await response.json();
 
-        if (!Array.isArray(tickets) || tickets.length === 0) {
-          ticketBody.innerHTML = `<tr><td colspan="4">No tickets found.</td></tr>`;
+        if (tickets.length === 0) {
+          ticketList.innerHTML = "<p>No tickets have been resolved yet.</p>";
           return;
         }
 
-        ticketBody.innerHTML = "";
         tickets.forEach(ticket => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td><a href="ticket.html?id=${ticket.id}">#${ticket.id}</a></td>
-            <td>${ticket.issue_type || "—"}</td>
-            <td>${ticket.status || "—"}</td>
-            <td>${ticket.created_at ? new Date(ticket.created_at).toLocaleDateString() : "—"}</td>
+          const card = document.createElement("div");
+          card.className = "ticket-card";
+
+          card.innerHTML = `
+            <div class="ticket-header">
+              <h3 class="ticket-title">${ticket.title}</h3>
+              <span class="ticket-status resolved">${ticket.status}</span>
+            </div>
+            <div class="ticket-body">
+              <p><strong>Description:</strong> ${ticket.description}</p>
+              <p><strong>Severity:</strong> ${ticket.severity ?? "N/A"}</p>
+              <p><strong>Assigned To:</strong> ${ticket.assigned_to ?? "N/A"}</p>
+              <p><strong>Created:</strong> ${ticket.created_at ? new Date(ticket.created_at).toLocaleString() : "Unknown"}</p>
+            </div>
+            <div class="ticket-footer">
+              <button class="view-btn" onclick="viewTicket(${ticket.id})">View Ticket</button>
+            </div>
           `;
-          ticketBody.appendChild(row);
+
+          ticketList.appendChild(card);
         });
-
       } catch (err) {
-        console.error("Failed to load ticket history", err);
-        ticketBody.innerHTML = `<tr><td colspan="4" style="color:red;">Error loading tickets. Please try again later.</td></tr>`;
+        ticketList.innerHTML = `<p class="error">Error: ${err.message}</p>`;
       }
-    }
+    });
 
-    window.addEventListener("DOMContentLoaded", loadTicketHistory);
+    function viewTicket(ticketId) {
+      window.location.href = `ticket.html?id=${ticketId}`;
+    }
   </script>
 </body>
 </html>
