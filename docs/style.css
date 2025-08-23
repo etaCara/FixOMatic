@@ -323,3 +323,89 @@ body.login-page {
 .login-container button:hover {
   background-color: #3b3b3b;
 }
+
+/* =========================
+   HOME PAGE TICKET TABLE
+========================= */
+
+.ticket-table {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* Ticket Header Row */
+.ticket-header {
+  display: grid;
+  grid-template-columns: 80px 1fr 150px 120px 120px; /* Adjust column widths */
+  gap: 1rem;
+  padding: 0.7rem 1rem;
+  font-weight: bold;
+  color: #fff;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+
+/* Ticket Data Rows */
+.ticket-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 150px 120px 120px;
+  gap: 1rem;
+  padding: 0.7rem 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  align-items: center;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.ticket-row:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Ticket Links */
+.ticket-row a {
+  color: #3b82f6;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.ticket-row a:hover {
+  text-decoration: underline;
+}
+
+/* Status Badges */
+.status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-transform: capitalize;
+  text-align: center;
+}
+
+.status.open { background-color: #3b82f6; color: #fff; }
+.status.in-progress { background-color: #facc15; color: #000; }
+.status.closed { background-color: #16a34a; color: #fff; }
+.status.unknown { background-color: #6b7280; color: #fff; }
+
+/* View All Tickets Button */
+.view-all {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #1f2937;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.view-all:hover {
+  background-color: #3b3b3b;
+  transform: scale(1.05);
+}
