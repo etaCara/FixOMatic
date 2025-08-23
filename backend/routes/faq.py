@@ -22,7 +22,7 @@ async def get_all_faq():
     async with conn.cursor() as cur:
         await cur.execute("""
             SELECT id, title, author, content, created_at
-            FROM knowledge_base
+            FROM knowledge_articles
         """)
         rows = await cur.fetchall()
 
