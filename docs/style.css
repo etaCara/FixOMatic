@@ -81,6 +81,77 @@ body {
    text-color: black;
 }
 
+/* Form Group Styling */
+.form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+/* Input Fields */
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  outline: none;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* Floating Labels */
+.form-group label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #666;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+/* When Input is Focused or Filled */
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: -8px;
+  left: 10px;
+  font-size: 0.8rem;
+  color: #ff4d4d;
+  background-color: #fff;
+  padding: 0 5px;
+}
+
+/* Better Focus Styles */
+.form-group input:focus {
+  border-color: #ff4d4d;
+  box-shadow: 0 0 5px #ff4d4d;
+}
+
+/* Submit Button */
+.login-submit-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #1f2937;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.login-submit-button.active {
+  background-color: #ff4d4d;
+}
+
+.login-submit-button:hover {
+  background-color: #3b3b3b;
+}
+
+
 /* =========================
    BUTTONS
 ========================= */
