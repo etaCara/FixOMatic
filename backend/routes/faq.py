@@ -1,4 +1,4 @@
-# models/faq.py
+from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
