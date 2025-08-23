@@ -39,37 +39,41 @@ body {
   display: block;
   font-weight: 600;
   margin-bottom: 6px;
-  color: white; /* Labels always white */
+  color: white;
+  font-size: 0.95rem;
 }
 
+/* Inputs, Textareas, Selects */
 .ticket-form select,
 .ticket-form textarea,
 .ticket-form input[type="text"],
 .ticket-form input[type="file"] {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 16px;
+  padding: 10px 12px;
+  margin-bottom: 18px;
   border-radius: 8px;
   border: 1px solid #ccc;
   background-color: rgba(255, 255, 255, 0.08);
   color: #fff;
-  font-size: 14px;
+  font-size: 15px;
   box-sizing: border-box;
-  transition: border-color 0.3s, background-color 0.3s;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 /* Placeholder Colors */
 .ticket-form input::placeholder,
 .ticket-form textarea::placeholder {
-  color: #ccc;
+  color: rgba(200, 200, 200, 0.6);
+  font-size: 14px;
 }
 
-/* Focus Effect */
+/* Focus Effect — Red Glow */
 .ticket-form input:focus,
 .ticket-form select:focus,
 .ticket-form textarea:focus {
   border-color: #ff4d4d;
   background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 8px #ff4d4d;
   outline: none;
 }
 
