@@ -13,12 +13,14 @@ class TicketCreate(BaseModel):
     created_by: Optional[str] = None  # maps to customerID
 
 class TicketOut(BaseModel):
-    id: int  #  TicketID
+    id: int
     title: str
     description: str
     status: str
+    severity: Optional[str] = None
     created_by: Optional[str] = None
     created_at: Optional[str] = None
+
 
 class TicketUpdate(BaseModel):
     title: str
@@ -109,12 +111,13 @@ async def get_in_progress_tickets():
 
     return [
         TicketOut(
-            id=r[0],
-            title=r[1],
-            description=r[2],
-            status=r[3],
-            created_by=r[4],
-            created_at=str(r[5]) if r[5] else None
+            id=row[0],
+            title=row[1],
+            description=row[2],
+            status=row[3],
+            severity=row[4],
+            created_by=row[5],
+            created_at=str(row[6]) if row[6] else None
         ) for r in rows
     ]
 
@@ -134,14 +137,17 @@ async def get_ticket(ticket_id: str):
         if not row:
             raise HTTPException(status_code=404, detail="Ticket not found")
 
-    return TicketOut(
-        id=row[0],
-        title=row[1],
-        description=row[2],
-        status=row[3],
-        created_by=row[4],
-        created_at=str(row[5]) if row[5] else None
-    )
+    return [
+        TicketOut(
+            id=row[0],
+            title=row[1],
+            description=row[2],
+            status=row[3],
+            severity=row[4],
+            created_by=row[5],
+            created_at=str(row[6]) if row[6] else None
+        ) for r in rows
+    ]
 
 @router.get("/", response_model=List[TicketOut])
 async def list_tickets(user: Optional[str] = Query(default=None)):
