@@ -27,7 +27,7 @@ app.include_router(auth.router, prefix="/auth", tags=["Auth"])
 app.include_router(tickets.router, prefix="/tickets", tags=["Tickets"])
 app.include_router(user.router, prefix="/user", tags=["User"])
 app.include_router(admin.router, prefix="/admin", tags=["Admin"])
-app.include_router(faq.router, prefix="/faq", tags=["FAQ"])
+app.include_router(faq.router, prefix="/knowledge", tags=["FAQ"])
 app.include_router(settings.router, prefix="/settings", tags=["Settings"])
 
 # --- Optional Root Endpoint ---
