@@ -111,13 +111,13 @@ async def get_in_progress_tickets():
 
     return [
         TicketOut(
-            id=row[0],
-            title=row[1],
-            description=row[2],
-            status=row[3],
-            severity=row[4],
-            created_by=row[5],
-            created_at=str(row[6]) if row[6] else None
+            id=r[0],
+            title=r[1],
+            description=r[2],
+            status=r[3],
+            severity=r[4],
+            created_by=r[5],
+            created_at=str(r[6]) if r[6] else None
         ) for r in rows
     ]
 
@@ -139,13 +139,13 @@ async def get_ticket(ticket_id: str):
 
     return [
         TicketOut(
-            id=row[0],
-            title=row[1],
-            description=row[2],
-            status=row[3],
-            severity=row[4],
-            created_by=row[5],
-            created_at=str(row[6]) if row[6] else None
+            id=r[0],
+            title=r[1],
+            description=r[2],
+            status=r[3],
+            severity=r[4],
+            created_by=r[5],
+            created_at=str(r[6]) if r[6] else None
         ) for r in rows
     ]
 
