@@ -16,4 +16,16 @@ Documentation/Records - Gavin Yount
 
 --- Description ---
 
-All code for the Fix-O-Matic IT ticketing system will be stored in this repository.
+This repository contains the source code for Fix-O-Matic, a web-based IT ticketing system.
+
+The application allows users to:
+
+  Log in to their accounts
+
+  Create and submit IT support tickets
+
+  View ticket details and track status
+
+  Manage account information
+
+All ticket and user data is securely stored in the connected database for easy retrieval and management by the IT team.
