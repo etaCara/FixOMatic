@@ -1,10 +1,50 @@
-/* Global Background */
+/* Global Page Background */
 body {
   margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(160deg, #000000, #ff0000); /* Smooth black → red */
+  background-attachment: fixed; /* Keeps gradient fixed on scroll */
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(160deg, black 30%, red 100%);
-  color: #333;
 }
+
+/* Card Styling */
+.card, .ticket-card, .login-container {
+  background-color: rgba(255, 255, 255, 0.12); /* Semi-transparent white */
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  padding: 1.5rem;
+  color: #fff;
+}
+
+/* Buttons - Same Style as Login Page */
+button,
+.view-btn,
+.edit-btn,
+.save-btn,
+.cancel-btn {
+  width: auto;
+  padding: 0.75rem 1.5rem;
+  background-color: #1f2937;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover,
+.view-btn:hover,
+.edit-btn:hover,
+.save-btn:hover,
+.cancel-btn:hover {
+  background-color: #3b3b3b;
+  transform: scale(1.05);
+}
+
 
 
 /* Navbar Modernized */
