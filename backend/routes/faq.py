@@ -3,6 +3,8 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 
+router = APIRouter()  
+
 class FAQOut(BaseModel):
     KAID: str
     title: str
