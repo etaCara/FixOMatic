@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Create Ticket - IT Ticketing System</title>
+  <title>Create Ticket - Fix-O-Matic</title>
   <link rel="stylesheet" href="style.css" />
   <script>
     // ✅ Check if user is logged in
@@ -18,7 +18,7 @@
     <h1 class="logo">💼 Fix-O-Matic</h1>
     <nav>
       <a href="home.html">Home</a>
-      <a href="create-ticket.html">Create</a>
+      <a href="create-ticket.html" class="active">Create</a>
       <a href="history.html">History</a>
       <a href="faq.html">FAQ</a>
       <a href="settings.html">Settings</a>
@@ -28,86 +28,105 @@
   <main class="container">
     <section class="card">
       <h2>🎫 Create a New Ticket</h2>
-      <form id="ticketForm">
-        <label>Issue Type:</label><br />
-        <select id="issueType" name="issue_type" required>
-          <option value="" disabled selected>Select an issue type</option>
-          <option>Network</option>
-          <option>Hardware</option>
-          <option>Software</option>
-        </select><br />
+      <form id="ticketForm" class="ticket-form">
+
+        <div class="form-group">
+          <label>Issue Type</label>
+          <select id="issueType" name="issue_type" required>
+            <option value="" disabled selected>Select an issue type</option>
+            <option>Network</option>
+            <option>Hardware</option>
+            <option>Software</option>
+          </select>
+        </div>
 
         <div id="dynamicFields"></div>
 
-        <label>Description:</label><br />
-        <textarea rows="5" name="description" required></textarea><br />
+        <div class="form-group">
+          <label>Description</label>
+          <textarea rows="5" name="description" placeholder="Describe the issue..." required></textarea>
+        </div>
 
-        <label>Upload File:</label>
-        <input type="file" name="attachment" /><br />
+        <div class="form-group">
+          <label>Upload File (optional)</label>
+          <input type="file" name="attachment" />
+        </div>
 
-        <button type="submit">Submit Ticket</button>
+        <button type="submit" class="login-submit-button">Submit Ticket</button>
       </form>
-
-      <script>
-        const issueSelect = document.getElementById('issueType');
-        const dynamicFields = document.getElementById('dynamicFields');
-
-        issueSelect.addEventListener('change', () => {
-          dynamicFields.innerHTML = `
-            <label>Department:</label><br />
-            <select name="department" required>
-              <option value="" disabled selected>Select a department</option>
-              <option>IT</option>
-              <option>HR</option>
-              <option>Finance</option>
-              <option>Operations</option>
-            </select><br />
-
-            <label>Priority:</label><br />
-            <select name="priority" required>
-              <option value="" disabled selected>Select priority</option>
-              <option>Routine</option>
-              <option>Immediate</option>
-              <option>Urgent</option>
-            </select><br />
-
-            <label>Location (if applicable):</label><br />
-            <input type="text" name="location" placeholder="e.g., Floor 2 - Room 204" required /><br />
-
-            <label>Best Time to Contact:</label><br />
-            <input type="text" name="contact_time" placeholder="e.g., Weekdays 9AM-12PM" /><br />
-
-            <label>Impact Description:</label><br />
-            <textarea rows="3" name="impact" placeholder="Explain how this issue affects your work"></textarea><br />
-          `;
-        });
-
-        document.getElementById("ticketForm").addEventListener("submit", async function (e) {
-          e.preventDefault();
-
-          const form = e.target;
-          const formData = new FormData(form);
-          formData.append("username", localStorage.getItem("username"));
-
-          try {
-            const res = await fetch("https://your-backend-url.com/tickets/create", {
-              method: "POST",
-              body: formData
-            });
-
-            if (res.ok) {
-              alert("Ticket created successfully!");
-              window.location.href = "home.html";
-            } else {
-              alert("Failed to create ticket.");
-            }
-          } catch (err) {
-            console.error(err);
-            alert("Error submitting ticket.");
-          }
-        });
-      </script>
     </section>
   </main>
+
+  <script>
+    const issueSelect = document.getElementById('issueType');
+    const dynamicFields = document.getElementById('dynamicFields');
+
+    // Dynamically load extra fields based on issue type
+    issueSelect.addEventListener('change', () => {
+      dynamicFields.innerHTML = `
+        <div class="form-group">
+          <label>Department</label>
+          <select name="department" required>
+            <option value="" disabled selected>Select a department</option>
+            <option>IT</option>
+            <option>HR</option>
+            <option>Finance</option>
+            <option>Operations</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Priority</label>
+          <select name="priority" required>
+            <option value="" disabled selected>Select priority</option>
+            <option>Routine</option>
+            <option>Immediate</option>
+            <option>Urgent</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Location (if applicable)</label>
+          <input type="text" name="location" placeholder="e.g., Floor 2 - Room 204" required />
+        </div>
+
+        <div class="form-group">
+          <label>Best Time to Contact</label>
+          <input type="text" name="contact_time" placeholder="e.g., Weekdays 9AM-12PM" />
+        </div>
+
+        <div class="form-group">
+          <label>Impact Description</label>
+          <textarea rows="3" name="impact" placeholder="Explain how this issue affects your work"></textarea>
+        </div>
+      `;
+    });
+
+    // Handle form submission
+    document.getElementById("ticketForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+      formData.append("username", localStorage.getItem("username"));
+
+      try {
+        const res = await fetch("https://your-backend-url.com/tickets/create", {
+          method: "POST",
+          body: formData
+        });
+
+        if (res.ok) {
+          alert("✅ Ticket created successfully!");
+          window.location.href = "home.html";
+        } else {
+          alert("❌ Failed to create ticket.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("⚠️ Error submitting ticket.");
+      }
+    });
+  </script>
 </body>
 </html>
