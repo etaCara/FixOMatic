@@ -13,12 +13,13 @@ class TicketCreate(BaseModel):
     created_by: Optional[str] = None  # maps to customerID
 
 class TicketOut(BaseModel):
-    id: str  # TicketID is varchar
+    id: int  #  TicketID
     title: str
     description: str
     status: str
-    created_by: Optional[str] = None  # maps to customerID
-    created_at: Optional[str] = None  # maps to opened_datetime
+    created_by: Optional[str] = None
+    created_at: Optional[str] = None
+
 
 # --- Routes ---
 
@@ -64,9 +65,9 @@ async def get_in_progress_tickets():
     async with conn.cursor() as cur:
         await cur.execute(
             """
-            SELECT TicketID, title, description, status, customerID, opened_datetime
+            SELECT TicketID, title, description, status, created_by, opened_datetime
             FROM tickets
-            WHERE status = 'in-progress'
+            WHERE status = 'In-Process'
             """
         )
         rows = await cur.fetchall()
