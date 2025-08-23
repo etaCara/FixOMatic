@@ -60,5 +60,3 @@ async def get_faq(ka_id: str):
             content=r[3], 
             created_at=str(r[4]) if r[4] else None
     )
-    for r in rows
-]
