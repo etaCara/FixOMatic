@@ -30,8 +30,9 @@
       <h2>🎫 Create a New Ticket</h2>
       <form id="ticketForm" class="ticket-form">
 
+        <!-- Issue Type -->
         <div class="form-group">
-          <label>Issue Type</label>
+          <label for="issueType">Issue Type</label>
           <select id="issueType" name="issue_type" required>
             <option value="" disabled selected>Select an issue type</option>
             <option>Network</option>
@@ -40,18 +41,22 @@
           </select>
         </div>
 
+        <!-- Dynamic Fields -->
         <div id="dynamicFields"></div>
 
+        <!-- Description -->
         <div class="form-group">
-          <label>Description</label>
-          <textarea rows="5" name="description" placeholder="Describe the issue..." required></textarea>
+          <label for="description">Description</label>
+          <textarea id="description" rows="5" name="description" placeholder="Describe the issue..." required></textarea>
         </div>
 
+        <!-- File Upload -->
         <div class="form-group">
           <label>Upload File (optional)</label>
           <input type="file" name="attachment" />
         </div>
 
+        <!-- Submit Button -->
         <button type="submit" class="login-submit-button">Submit Ticket</button>
       </form>
     </section>
@@ -61,7 +66,6 @@
     const issueSelect = document.getElementById('issueType');
     const dynamicFields = document.getElementById('dynamicFields');
 
-    // Dynamically load extra fields based on issue type
     issueSelect.addEventListener('change', () => {
       dynamicFields.innerHTML = `
         <div class="form-group">
@@ -102,7 +106,6 @@
       `;
     });
 
-    // Handle form submission
     document.getElementById("ticketForm").addEventListener("submit", async function (e) {
       e.preventDefault();
 
@@ -128,5 +131,7 @@
       }
     });
   </script>
+</body>
+</html>
 </body>
 </html>
