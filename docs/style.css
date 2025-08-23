@@ -77,80 +77,42 @@ body {
   outline: none;
 }
 
-.option {
-   text-color: black;
-}
-
-/* Form Group Styling */
+/* Floating Labels */
 .form-group {
   position: relative;
   margin-bottom: 1.5rem;
-  width: 100%;
 }
 
-/* Input Fields */
 .form-group input {
   width: 100%;
-  padding: 12px;
+  padding: 12px 12px 12px 12px;
   font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.08);
   border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  color: #fff;
   outline: none;
-  color: #333;
-  box-sizing: border-box;
 }
 
-/* Floating Labels */
 .form-group label {
   position: absolute;
-  top: 50%;
   left: 12px;
-  transform: translateY(-50%);
+  top: 12px;
+  color: #bbb;
   font-size: 1rem;
-  color: #666;
   pointer-events: none;
-  transition: all 0.2s ease;
+  transition: 0.2s ease all;
 }
 
-/* When Input is Focused or Filled */
 .form-group input:focus + label,
 .form-group input:not(:placeholder-shown) + label {
-  top: -8px;
-  left: 10px;
+  top: -10px;
+  left: 8px;
   font-size: 0.8rem;
   color: #ff4d4d;
-  background-color: #fff;
+  background-color: transparent;
   padding: 0 5px;
 }
-
-/* Better Focus Styles */
-.form-group input:focus {
-  border-color: #ff4d4d;
-  box-shadow: 0 0 5px #ff4d4d;
-}
-
-/* Submit Button */
-.login-submit-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #1f2937;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.login-submit-button.active {
-  background-color: #ff4d4d;
-}
-
-.login-submit-button:hover {
-  background-color: #3b3b3b;
-}
-
 
 /* =========================
    BUTTONS
@@ -228,141 +190,91 @@ input[type="file"] {
 }
 
 /* =========================
-   TICKET CARDS
+   UPDATED TICKET CARD DESIGN
 ========================= */
+.ticket-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
 .ticket-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
   border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 1.2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .ticket-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* Ticket Status Badges */
+/* Ticket Card Header */
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.ticket-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  margin: 0;
+}
+
+/* Status Badges */
 .ticket-status {
-  padding: 5px 12px;
-  border-radius: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
   font-weight: bold;
   text-transform: capitalize;
 }
 
 .ticket-status.open { background-color: #3b82f6; color: #fff; }
-.ticket-status.in-process { background-color: #facc15; color: #000; }
+.ticket-status.in-progress { background-color: #facc15; color: #000; }
 .ticket-status.closed { background-color: #16a34a; color: #fff; }
 
-/* =========================
-   TICKET FEED SECTION
-========================= */
-.ticket-feed {
-  padding: 1.5rem;
-  border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  margin-bottom: 2rem;
-}
-
-/* Header */
-.ticket-feed h3 {
-  font-size: 1.5rem;
-  font-weight: bold;
+/* Ticket Card Body */
+.ticket-body {
   margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
-/* Ticket Table Wrapper */
-.ticket-table {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border-radius: 10px;
-  overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-/* Header Row */
-.ticket-header {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1.5fr 1fr 1fr;
-  padding: 12px 15px;
-  font-weight: bold;
-  background-color: rgba(255, 255, 255, 0.15);
-  color: white;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-/* Ticket Rows */
-#ticketRows {
-  display: flex;
-  flex-direction: column;
-}
-
-.ticket-row {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1.5fr 1fr 1fr;
-  padding: 12px 15px;
-  align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
+.ticket-body p {
+  margin: 6px 0;
   font-size: 0.95rem;
-  transition: background-color 0.2s ease-in-out;
+  color: #e5e7eb;
 }
 
-.ticket-row:hover {
-  background-color: rgba(255, 255, 255, 0.08);
+/* Ticket Card Footer */
+.ticket-footer {
+  display: flex;
+  justify-content: flex-end;
 }
 
-/* Ticket Status Badges */
-.ticket-row .status {
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-weight: bold;
-  text-align: center;
-  display: inline-block;
-  text-transform: capitalize;
-}
-
-.status.in-process { background-color: #facc15; color: #000; }
-.status.open { background-color: #3b82f6; color: #fff; }
-.status.closed { background-color: #16a34a; color: #fff; }
-
-/* Severity Badges */
-.ticket-row .severity {
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-weight: bold;
-  text-align: center;
-  text-transform: capitalize;
-}
-
-.severity.high { background-color: #ef4444; color: #fff; }
-.severity.medium { background-color: #f59e0b; color: #fff; }
-.severity.low { background-color: #10b981; color: #fff; }
-
-/* "View All" Button */
-.view-all {
-  display: inline-block;
-  margin-top: 1rem;
+.view-btn {
+  padding: 0.5rem 1rem;
   background-color: #1f2937;
   color: white;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.2s ease-in-out;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
-.view-all:hover {
+.view-btn:hover {
   background-color: #3b3b3b;
+  transform: scale(1.05);
 }
 
 /* =========================
