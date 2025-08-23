@@ -20,8 +20,43 @@ class TicketOut(BaseModel):
     created_by: Optional[str] = None
     created_at: Optional[str] = None
 
+class TicketUpdate(BaseModel):
+    title: str
+    description: str
+    status: str
+    severity: str | None = None
 
 # --- Routes ---
+
+@router.put("/tickets/{ticket_id}")
+async def update_ticket(ticket_id: int, ticket: TicketUpdate):
+    conn = await get_connection()
+    async with conn.cursor() as cur:
+        # Check if the ticket exists
+        await cur.execute("SELECT TicketID FROM tickets WHERE TicketID=%s", (ticket_id,))
+        existing_ticket = await cur.fetchone()
+        if not existing_ticket:
+            raise HTTPException(status_code=404, detail="Ticket not found")
+
+        # Update ticket
+        await cur.execute("""
+            UPDATE tickets
+            SET title=%s, description=%s, status=%s, severity=%s, last_updated_datetime=NOW()
+            WHERE TicketID=%s
+        """, (
+            ticket.title,
+            ticket.description,
+            ticket.status,
+            ticket.severity,
+            ticket_id
+        ))
+
+        await conn.commit()
+
+    return {
+        "message": "Ticket updated successfully",
+        "ticket_id": ticket_id
+    }
 
 @router.post("/", response_model=TicketOut)
 async def create_ticket(ticket: TicketCreate):
