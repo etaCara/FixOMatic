@@ -79,6 +79,7 @@
           <p><strong>Title:</strong> ${ticket.title}</p>
           <p><strong>Description:</strong> ${ticket.description}</p>
           <p><strong>Status:</strong> ${ticket.status}</p>
+          <p><strong> Assigned To:</strong> ${ticket.assigned_to || "N/A"}</p>>
           <p><strong>Severity:</strong> ${ticket.severity || "N/A"}</p>
         `;
       } else {
@@ -90,6 +91,14 @@
               <option value="Open" ${ticket.status === "Open" ? "selected" : ""}>Open</option>
               <option value="In-Process" ${ticket.status === "In-Process" ? "selected" : ""}>In-Process</option>
               <option value="Closed" ${ticket.status === "Closed" ? "selected" : ""}>Closed</option>
+            </select>
+          </p>
+          <p><strong>Assigned To:</strong>
+            <select id="AssignementInput">
+              <option value="Larry" ${ticket.assigned_to === "Larry" ? "selected" : ""}>Larry</option>
+              <option value="Hannah" ${ticket.assigned_to === "Hannah" ? "selected" : ""}>Hannah</option>
+              <option value="Gavin" ${ticket.assigned_to === "Gavin" ? "selected" : ""}>Gavin</option>
+              <option value="James " ${ticket.assigned_to === "James " ? "selected" : ""}>James</option>
             </select>
           </p>
           <p><strong>Severity:</strong> <input type="text" id="severityInput" value="${ticket.severity || ""}" /></p>
